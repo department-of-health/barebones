@@ -1,0 +1,35 @@
+{
+  "name": "barebones",
+  "version": "1.0.0",
+  "description": "A very minimal node / express / frontend_toolkit / elements pack for prototyping admin tools",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "govuk_frontend_toolkit": "^7.2.0",
+    "nunjucks": "^3.0.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "node-sass": "^4.6.1",
+    "nodemon": "^1.12.1",
+    "uglify-js": "^3.1.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/department-of-health/barebones.git"
+  },
+  "author": "demotive",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/department-of-health/barebones/issues"
+  },
+  "homepage": "https://github.com/department-of-health/barebones#readme",
+  "scripts": {
+    "build-css": "node-sass --include-path node_modules/govuk_frontend_toolkit/stylesheets app/assets/scss/main.scss public/css/main.css",
+    "build-js": "uglifyjs app/assets/js/*.js -c -o public/js/main.js",
+    "watch-js": "nodemon -e js --watch app/assets/js -x \"npm run build-js\"",
+    "watch-scss": "nodemon -e scss --watch app/assets/scss -x \"npm run build-css\"",
+    "watch": "npm run watch-js & npm run watch-scss & nodemon server.js",
+    "build": "npm run build-js & npm run build-css"
+  }
+}
