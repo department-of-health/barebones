@@ -1,8 +1,9 @@
-const express = require('express')
-const path = require('path')
-const nunjucks = require('nunjucks')
+var express = require('express')
+var path = require('path')
+var nunjucks = require('nunjucks')
+var utils = require('./lib/utils.js')
 
-const app = express()
+var app = express()
 
 // Application settings
 app.set('view engine', 'html')
@@ -31,4 +32,8 @@ app.get('/robots.txt', function (req, res) {
   res.send('User-agent: *\nDisallow: /')
 })
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+// start the app
+utils.findAvailablePort(app, function (port) {
+  console.log('Listening on port ' + port + '   url: http://localhost:' + port)
+  app.listen(port)
+})
