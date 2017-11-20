@@ -1,7 +1,11 @@
 <header role="banner" id="global-header">
   <div class="header-container">
     <a href="/" class="header-logo service-name" title="Go to the index page">
-      service
+      {% if serviceName %}
+        {{serviceName}}
+      {% else %}
+        Masthead: service name
+      {% endif %}
     </a>
   </div>
 </header>
