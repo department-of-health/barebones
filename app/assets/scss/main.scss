@@ -1,7 +1,4 @@
 @import "_govuk-frontend-toolkit";
-
-$badass: $cabinet-office;
-body { 
-  margin: 0; 
-  background-color: $badass; 
-}
+@import "_layout";
+@import "_masthead";
+@import "_typography";
