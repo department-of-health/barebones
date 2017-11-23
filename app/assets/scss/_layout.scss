@@ -1,5 +1,24 @@
 html, body {
+  width: 100vw;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
   background-color: $white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: $gutter-narrow;
+  margin: $gutter-narrow;
+
+  @media (min-width: 481px) {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  @media (min-width: 841px) {
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: $gutter-wide;
+    margin: $gutter-wide;
+  }
 }

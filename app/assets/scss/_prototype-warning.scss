@@ -1,6 +1,10 @@
 .prototype-warning {
-  padding: $gutter-half;
   background: $department_of_health;
+  padding: $gutter-narrow;
+
+  @media (min-width: 841px) {
+    padding: $gutter-wide;
+  }
 
   p {
     margin: 0;
