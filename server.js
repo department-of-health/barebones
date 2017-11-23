@@ -1,6 +1,7 @@
 var express = require('express')
 var path = require('path')
 var nunjucks = require('nunjucks')
+var config = require('./config.js')
 var utils = require('./lib/utils.js')
 
 var app = express()
@@ -12,7 +13,7 @@ var env = nunjucks.configure('./app/views', {
     autoescape: true,
     express: app,
     noCache: true
-});
+})
 
 // Middleware to serve static assets
 app.use('/', express.static(path.join(__dirname, '/public')))
@@ -21,6 +22,13 @@ app.use('/', express.static(path.join(__dirname, '/public')))
 app.use(function (req, res, next) {
   // Setting headers stops pages being indexed even if indexed pages link to them.
   res.setHeader('X-Robots-Tag', 'noindex')
+  next()
+})
+
+// Add variables that are available in all views
+app.use(function (req, res, next) {
+  res.locals.vars = config.vars;
+  res.locals.jsNow = new Date();
   next()
 })
 
