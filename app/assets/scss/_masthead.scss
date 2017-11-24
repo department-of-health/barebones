@@ -1,13 +1,11 @@
 #global-header {
   color: $white;
   background: $black;
-  padding: $gutter-narrow;
-
-  @media (min-width: 841px) {
-    padding: $gutter-wide;
-  }
+  border-bottom: $gutter-nano solid $department-of-health;
 
   a {
     color: $white;
+    font-weight: bold;
+    text-decoration: none;
   }
 }

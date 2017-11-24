@@ -1,7 +1,9 @@
 $gutter-unit: 8px;
 $gutter-nano: $gutter-unit/4;
 $gutter-tiny: $gutter-unit/2;
-$gutter-narrow: $gutter-unit*2;
-$gutter-wide: $gutter-unit*3;
+$gutter-small: $gutter-unit*2;
+$gutter-medium: $gutter-unit*4;
+$gutter-large: $gutter-unit*6;
+$gutter-xlarge: $gutter-unit*8;
 
 $footer-background: $grey-3;
