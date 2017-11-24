@@ -1,19 +1,15 @@
 #global-footer {
   color: $secondary-text-colour;
   background: $footer-background;
-  padding: $gutter-narrow;
   border-top: $gutter-nano solid $secondary-text-colour;
-
-  @media (min-width: 841px) {
-    padding: $gutter-wide;
-  }
+  margin-top: $gutter-medium;
+  padding-bottom: $gutter-medium;
 
   a {
     color: $white;
   }
 
   .crest {
-    float: right;
-    width: 125px;
+    width: 62px;
   }
 }

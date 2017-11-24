@@ -13,19 +13,77 @@ body {
   background-color: $white;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: $gutter-narrow;
-  margin: $gutter-narrow;
+.section {
+  padding: $gutter-small;
+  @media (min-width: 841px) {
+    padding: $gutter-small $gutter-medium;
+  }
+}
 
-  @media (min-width: 481px) {
-    grid-template-columns: repeat(8, 1fr);
+.grid {
+  @media (min-width: 841px) {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: $gutter-small;
+    margin: $gutter-medium;
+  }
+}
+
+.panel-3-up { // or panel 3 up or something
+  @extend .section;
+  border-bottom: 1px solid $grey-3;
+
+  &:last-child {
+    border-bottom: 0;
   }
 
   @media (min-width: 841px) {
-    grid-template-columns: repeat(12, 1fr);
-    grid-gap: $gutter-wide;
-    margin: $gutter-wide;
+    grid-column: span 4;
+    border-right: 1px solid $grey-3;
+    border-bottom: 0;
+    padding: 0;
+
+    &:nth-child(3n) {
+      border-right: 0;
+    }
   }
+}
+
+// stacked info basically?
+.floats {
+  @extend %contain-floats;
+
+  @media (min-width: 841px) {
+    > * {
+      float: left;
+      margin-left: $gutter-xlarge;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+// shunts in place of proper typography for the moment :D
+.shunt {
+  margin-bottom: $gutter;
+}
+.shunt-xlarge {
+  margin-bottom: $gutter-xlarge;
+}
+.shunt-large {
+  margin-bottom: $gutter-large;
+}
+.shunt-medium {
+  margin-bottom: $gutter-medium;
+}
+.shunt-small {
+  margin-bottom: $gutter-small;
+}
+.shunt-tiny {
+  margin-bottom: $gutter-tiny;
+}
+.shunt-nano {
+  margin-bottom: $gutter-nano;
 }

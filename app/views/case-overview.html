@@ -1,0 +1,98 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="#">Cases</a></li>
+        <li>Unique case ref</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h1 class="bold-large">
+      Unique reference
+      <a href="#" class="font-xxsmall">Rename</a>
+    </h1>
+    <h2>Status</h2>
+  </div>
+
+  <div class="grid">
+
+    <div class="panel-3-up">
+      <h3 class="shunt-small">
+        <a href="/details-deceased" class="font-small">
+          Deceased<br>
+          <div class="bold-medium">Catherine Jefferies McNulty</div>
+        </a>
+      </h3>
+      <table>
+        <tr>
+          <th scope="row">Died:</th>
+          <td>21st November 2017 at 21:40</td>
+        </tr>
+        <tr>
+          <th scope="row">Age:</th>
+          <td>47</td>
+        </tr>
+        <tr>
+          <th scope="row">Type:</th>
+          <td>sudden but not unexpected</td>
+        </tr>
+        <tr>
+          <th scope="row">Cause:</th>
+          <td><a href="#">cause not added</a></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="panel-3-up">
+      <h3 class="shunt-small">
+        <a href="#" class="font-small">Events</a>
+      </h3>
+      No events yet.
+      <a href="#">Add event</a>
+    </div>
+
+    <div class="panel-3-up">
+      <h3 class="shunt-small">
+        <a href="#" class="font-small">Contacts</a>
+      </h3>
+      <div class="shunt-medium">
+        <h5 class="shunt-tiny">
+          Medical Examiner<br>
+          <div class="bold-medium">Dr. Evan Atkinson</div>
+        </h5>
+        Best contact: 07937 370 0377
+        <div class="shunt-tiny">
+          <a href="#">Full contact details</a>
+        </div>
+      </div>
+      <div class="shunt-medium">
+        <h5 class="shunt-tiny">
+          Qualified attending practitioner<br>
+          <div class="bold-medium">Dr. Chloe North</div>
+        </h5>
+        Best contact: 07937 370 0377
+        <div class="shunt-tiny">
+          <a href="#">Full contact details</a>
+        </div>
+      </div>
+      <div class="shunt-medium">
+        <h5 class="shunt-tiny">
+          Informant<br>
+          <div class="bold-medium">Charles McNulty</div>
+        </h5>
+        Best contact: informant@personalemail.co.uk
+        <div class="shunt-tiny">
+          <a href="#">Full contact details</a>
+        </div>
+      </div>
+      <div class="shunt-medium">
+        <a href="#">James McNulty, son</a>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

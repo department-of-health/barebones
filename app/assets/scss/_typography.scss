@@ -1,4 +1,34 @@
-body {
-  font-family: Arial, sans-serif;
-  color: $text-colour;
+/* Override Elements with sans font stack */
+html,
+body,
+button,
+input,
+table,
+td,
+th {
+  font-family: $helvetica-regular;
+}
+
+main {
+  @include core-16;
+}
+
+// Extend Elements classes a bit
+.font-xxsmall {
+  @include core-14;
+}
+
+// Tag declared link styles
+a {
+  @extend .link;
+
+  &:visited {
+    @extend .link:visited;
+  }
+  &:hover {
+    @extend .link:hover;
+  }
+  &:active {
+    @extend .link:active;
+  }
 }

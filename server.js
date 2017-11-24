@@ -34,6 +34,25 @@ app.use(function (req, res, next) {
 
 app.get('/', (req, res) => res.render('index.html'))
 
+// auto render any view that exists
+app.get(/^\/([^.]+)$/, function (req, res) {
+  var path = (req.params[0])
+  res.render(path, function (err, html) {
+    if (err) {
+      res.render(path + '/index', function (err2, html) {
+        if (err2) {
+          console.log(err)
+          res.status(404).send(err + '<br>' + err2)
+        } else {
+          res.end(html)
+        }
+      })
+    } else {
+      res.end(html)
+    }
+  })
+})
+
 // No robots plz
 app.get('/robots.txt', function (req, res) {
   res.type('text/plain')
