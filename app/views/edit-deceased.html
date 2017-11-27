@@ -1,0 +1,335 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="#">Cases</a></li>
+        <li><a href="/case-overview">Unique case ref</a></li>
+        <li>Deceased: add details</li>
+      </ul>
+    </div>
+  </div>
+
+  <form method="post" class="section">
+
+    <h1 class="heading-large">The deceased</h1>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" value="{{ session.deceased.name }}" />
+    </div>
+
+    <div class="form-group">
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            Date of birth
+          </span>
+          <span class="form-hint">For example, {{ jsNow | date("subtract", 70, "years") | date("DD MM YYYY") }}</span>
+        </legend>
+        <div class="form-date">
+          <div class="form-group form-group-day">
+            <label class="form-label" for="dob-day">Day</label>
+            <input class="form-control" id="dob-day" name="dob-day" type="number" pattern="[0-9]*" min="0" max="31"
+              value="{{ session.deceased['dob-day'] }}">
+          </div>
+          <div class="form-group form-group-month">
+            <label class="form-label" for="dob-month">Month</label>
+            <input class="form-control" id="dob-month" name="dob-month" type="number" pattern="[0-9]*" min="0" max="12"
+              value="{{ session.deceased['dob-month'] }}">
+          </div>
+          <div class="form-group form-group-year">
+            <label class="form-label" for="dob-year">Year</label>
+            <input class="form-control" id="dob-year" name="dob-year" type="number" pattern="[0-9]*" min="0" max="{{ jsNow | date('YYYY') }}"
+              value="{{ session.deceased['dob-year'] }}">
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">Sex</span>
+        </legend>
+        <div class="multiple-choice">
+          <input id="sex-female" type="radio" name="sex" value="female"
+            {% if session.deceased['sex'] == "female" %}checked="checked"{% endif %}>
+          <label for="sex-female">Female</label>
+        </div>
+        <div class="multiple-choice">
+          <input id="sex-male" type="radio" name="sex" value="male"
+            {% if session.deceased['sex'] == "male" %}checked="checked"{% endif %}>
+          <label for="sex-male">Male</label>
+        </div>
+      </fieldset>
+    </div>
+
+    <fieldset>
+      <div class="form-group">
+        <label for="last-address-1" class="form-label-bold">
+          Last residential address
+        </label>
+        <div>
+          <input type="text" id="last-address-1" name="last-address-1" class="form-control"
+            value="{{ session.deceased['last-address-1'] }}">
+        </div>
+        <div>
+          <input type="text" name="last-address-2" class="form-control"
+            value="{{ session.deceased['last-address-2'] }}">
+        </div>
+        <div>
+          <input type="text" name="last-address-3" class="form-control"
+            value="{{ session.deceased['last-address-3'] }}">
+        </div>
+        <div>
+          <input type="text" id="last-address-4" name="last-address-4" class="form-control"
+            value="{{ session.deceased['last-address-4'] }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="last-postcode" class="form-label">Postcode</label>
+        <input type="text" id="last-postcode" name="last-postcode" class="form-control"
+          value="{{ session.deceased['last-postcode'] }}">
+      </div>
+    </fieldset>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="last-occupation">Last occupation</label>
+      <input type="text" class="form-control" id="last-occupation" name="last-occupation"
+        value="{{ session.deceased['last-occupation'] }}">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="nhs-number">NHS number</label>
+      <input type="text" class="form-control" id="nhs-number" name="nhs-number"
+        value="{{ session.deceased['nhs-number'] }}">
+      <!--<div>
+        <a href="#">PDS lookup</a>
+      </div>-->
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="implants-devices">Any implants or devices?</label>
+      <textarea class="form-control" name="implants-devices" id="implants-devices" rows="5">{{ session.deceased['implants-devices'] }}</textarea>
+    </div>
+
+    <div class="form-group">
+      <div class="floats">
+
+        <div>
+          <fieldset>
+            <legend>
+              <span class="form-label-bold">Any communicable infections?</span>
+              <span class="form-hint">Select all that apply</span>
+            </legend>
+            <div class="multiple-choice">
+              <input id="communicable-infections-1" name="communicable-infections" type="checkbox" value="inoculation / splash"
+                {% if session.deceased['communicable-infections'] and 'inoculation / splash' in session.deceased['communicable-infections'] %}checked="checked"{% endif %}>
+              <label for="communicable-infections-1">Inoculation / splash</label>
+            </div>
+            <div class="multiple-choice">
+              <input id="communicable-infections-2" name="communicable-infections" type="checkbox" value="aerosol"
+                {% if session.deceased['communicable-infections'] and 'aerosol' in session.deceased['communicable-infections'] %}checked="checked"{% endif %}>
+              <label for="communicable-infections-2">Aerosol</label>
+            </div>
+            <div class="multiple-choice">
+              <input id="communicable-infections-3" name="communicable-infections" type="checkbox" value="ingestion"
+                {% if session.deceased['communicable-infections'] and 'ingestion' in session.deceased['communicable-infections'] %}checked="checked"{% endif %}>
+              <label for="communicable-infections-3">Ingestion</label>
+            </div>
+            <div class="multiple-choice">
+              <input id="communicable-infections-4" name="communicable-infections" type="checkbox" value="contact"
+                {% if session.deceased['communicable-infections'] and 'contact' in session.deceased['communicable-infections'] %}checked="checked"{% endif %}>
+              <label for="communicable-infections-4">Contact</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div>
+          <fieldset>
+            <legend>
+              <span class="form-label-bold">ACDP hazard group</span>
+              <span class="form-hint">Select all that apply</span>
+            </legend>
+            <div class="multiple-choice">
+              <input id="acdp-1" name="acdp" type="checkbox" value="1"
+                {% if session.deceased['acdp'] and '1' in session.deceased['acdp'] %}checked="checked"{% endif %}>
+              <label for="acdp-1">1</label>
+            </div>
+            <div class="multiple-choice">
+              <input id="acdp-2" name="acdp" type="checkbox" value="2"
+                {% if session.deceased['acdp'] and '2' in session.deceased['acdp'] %}checked="checked"{% endif %}>
+              <label for="acdp-2">2</label>
+            </div>
+            <div class="multiple-choice">
+              <input id="acdp-3" name="acdp" type="checkbox" value="3"
+                {% if session.deceased['acdp'] and '3' in session.deceased['acdp'] %}checked="checked"{% endif %}>
+              <label for="acdp-3">3</label>
+            </div>
+            <div class="multiple-choice">
+              <input id="acdp-4" name="acdp" type="checkbox" value="4"
+                {% if session.deceased['acdp'] and '4' in session.deceased['acdp'] %}checked="checked"{% endif %}>
+              <label for="acdp-4">4</label>
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+
+      <h2 class="heading-large">The death</h2>
+
+      <div class="floats">
+        <div class="form-group">
+          <fieldset>
+            <legend>
+              <span class="form-label-bold">
+                Date of death
+              </span>
+              <span class="form-hint">For example, {{ jsNow | date("DD MM YYYY") }}</span>
+            </legend>
+            <div class="form-date">
+              <div class="form-group form-group-day">
+                <label class="form-label" for="dod-day">Day</label>
+                <input class="form-control" id="dod-day" name="dod-day" type="number" pattern="[0-9]*" min="0" max="31"
+                  value="{{ session.deceased['dod-day'] }}">
+              </div>
+              <div class="form-group form-group-month">
+                <label class="form-label" for="dod-month">Month</label>
+                <input class="form-control" id="dod-month" name="dod-month" type="number" pattern="[0-9]*" min="0" max="12"
+                  value="{{ session.deceased['dod-month'] }}">
+              </div>
+              <div class="form-group form-group-year">
+                <label class="form-label" for="dod-year">Year</label>
+                <input class="form-control" id="dod-year" name="dod-year" type="number" pattern="[0-9]*" min="0" max="{{ jsNow | date('YYYY') }}"
+                  value="{{ session.deceased['dod-year'] }}">
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="form-group">
+          <fieldset>
+            <legend>
+              <span class="form-label-bold">
+                Time of death
+              </span>
+              <span class="form-hint">For example, {{ jsNow | date("HH mm") }}</span>
+            </legend>
+            <div class="form-date">
+              <div class="form-group form-group-day">
+                <label class="form-label" for="tod-hour">Hour</label>
+                <input class="form-control" id="tod-hour" name="tod-hour" type="number" pattern="[0-9]*" min="00" max="24"
+                  value="{{ session.deceased['tod-hour'] }}">
+              </div>
+              <div class="form-group form-group-day">
+                <label class="form-label" for="tod-mins">Minute</label>
+                <input class="form-control" id="tod-mins" name="tod-mins" type="number" pattern="[0-9]*" min="00" max="59"
+                  value="{{ session.deceased['tod-mins'] }}">
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <fieldset>
+          <legend>
+            <span class="form-label-bold">Type of death</span>
+          </legend>
+          <div class="multiple-choice">
+            <input id="type-1" type="radio" name="type-group" value="unexpected"
+              {% if session.deceased['type-group'] == 'unexpected' %}checked="checked"{% endif %}>
+            <label for="type-1">Unexpected</label>
+          </div>
+          <div class="multiple-choice">
+            <input id="type-2" type="radio" name="type-group" value="sudden but not unexpected"
+              {% if session.deceased['type-group'] == 'sudden but not unexpected' %}checked="checked"{% endif %}>
+            <label for="type-2">Sudden, but not unexpected</label>
+          </div>
+          <div class="multiple-choice">
+            <input id="type-3" type="radio" name="type-group" value="expected"
+              {% if session.deceased['type-group'] == 'expected' %}checked="checked"{% endif %}>
+            <label for="type-3">Expected</label>
+          </div>
+          <div class="multiple-choice">
+            <input id="type-4" type="radio" name="type-group" value="individual end of life plan"
+              {% if session.deceased['type-group'] == 'individual end of life plan' %}checked="checked"{% endif %}>
+            <label for="type-4">Individual end of life plan</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- if female, pregnancy within 1 year? -->
+      <div class="form-group">
+        <fieldset>
+          <legend>
+            <span class="form-label-bold">Was the deceased pregnant?</span>
+          </legend>
+          <div class="multiple-choice">
+            <input id="pregnant-1" type="radio" name="pregnant" value="0"
+              {% if session.deceased['pregnant'] == '0' %}checked="checked"{% endif %}>
+            <label for="pregnant-1">No</label>
+          </div>
+          <div class="multiple-choice">
+            <input id="pregnant-2" type="radio" name="pregnant" value="pregnant at the time of death"
+              {% if session.deceased['pregnant'] == 'pregnant at the time of death' %}checked="checked"{% endif %}>
+            <label for="pregnant-2">Yes, at the time of death</label>
+          </div>
+          <div class="multiple-choice">
+            <input id="pregnant-3" type="radio" name="pregnant" value="pregnant within 42 days of death"
+              {% if session.deceased['pregnant'] == 'pregnant within 42 days of death' %}checked="checked"{% endif %}>
+            <label for="pregnant-3">Yes, within 42 days of death</label>
+          </div>
+          <div class="multiple-choice">
+            <input id="pregnant-4" type="radio" name="pregnant" value="pregnant between 43 days and 1 year of death"
+              {% if session.deceased['pregnant'] == 'pregnant between 43 days and 1 year of death' %}checked="checked"{% endif %}>
+            <label for="pregnant-4">Yes, between 43 days and 1 year of death</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <fieldset>
+        <div class="form-group">
+          <label for="death-address-1" class="form-label-bold">
+            Place of death
+          </label>
+          <div>
+            <input type="text" id="death-address-1" name="death-address-1" class="form-control"
+              value="{{ session.deceased['death-address-1'] }}">
+          </div>
+          <div>
+            <input type="text" name="death-address-2" class="form-control"
+              value="{{ session.deceased['death-address-2'] }}">
+          </div>
+          <div>
+            <input type="text" name="death-address-3" class="form-control"
+              value="{{ session.deceased['death-address-3'] }}">
+          </div>
+          <div>
+            <input type="text" id="death-address-4" name="death-address-4" class="form-control"
+              value="{{ session.deceased['death-address-4'] }}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="death-postcode" class="form-label">Postcode</label>
+          <input type="text" id="death-postcode" name="death-postcode" class="form-control"
+            value="{{ session.deceased['death-postcode'] }}">
+        </div>
+      </fieldset>
+
+      <div class="form-group">
+        <label class="form-label-bold" for="last-care-org">Last care organisation</label>
+        <input type="text" class="form-control" id="last-care-org" name="last-care-org"
+          value="{{ session.deceased['last-care-org'] }}">
+      </div>
+
+      <button class="button" type="submit">Save details</button>
+      <p>
+        <a href="/case-overview" class="link-back">Cancel and go back to case overview</a>
+      </p>
+    </div>
+
+  </form>
+
+{% endblock %}
