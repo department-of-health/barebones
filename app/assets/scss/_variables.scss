@@ -1,4 +1,7 @@
 $gutter-unit: 8px;
+
+$gutter: $gutter-unit*2;
+
 $gutter-nano: $gutter-unit/4;
 $gutter-tiny: $gutter-unit/2;
 $gutter-small: $gutter-unit*2;

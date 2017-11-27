@@ -1,6 +1,7 @@
 var express = require('express')
 var path = require('path')
 var nunjucks = require('nunjucks')
+var dateFilter = require('nunjucks-date-filter')
 var config = require('./config.js')
 var utils = require('./lib/utils.js')
 
@@ -14,6 +15,7 @@ var env = nunjucks.configure('./app/views', {
     express: app,
     noCache: true
 })
+env.addFilter('date', dateFilter);
 
 // Middleware to serve static assets
 app.use('/', express.static(path.join(__dirname, '/public')))
