@@ -8,11 +8,11 @@ td,
 th {
   font-family: $helvetica-regular;
 }
-
+/*
 main {
   @include core-16;
 }
-
+*/
 // Extend Elements classes a bit
 .font-xxsmall {
   @include core-14;
