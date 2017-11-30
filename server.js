@@ -58,7 +58,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }))
 
-app.get('/', (req, res) => res.render('index.html'))
+app.get('/', function(req, res) {
+  req.session.destroy()
+  res.render('index.html')
+})
 
 app.get('/details-deceased', function(req, res) {
   res.render('details-deceased.html', {
