@@ -63,11 +63,22 @@ app.get('/', function(req, res) {
   res.render('index.html')
 })
 
+app.get('/start', function(req, res) {
+  req.session.starting = true
+  res.render('start.html', {
+    session: req.session
+  })
+})
+
 app.get('/details-deceased', function(req, res) {
   res.render('details-deceased.html', {
     session: req.session
   })
+  if (req.session.starting = true) {
+    req.session.starting = false
+  }
 })
+
 app.get('/edit-deceased', function(req, res) {
   res.render('edit-deceased.html', {
     session: req.session
