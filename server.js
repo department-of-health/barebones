@@ -65,9 +65,15 @@ app.get('/', function(req, res) {
 
 app.get('/start', function(req, res) {
   req.session.starting = true
+  req.session.caseRef = config.caseRef
   res.render('start.html', {
     session: req.session
   })
+})
+
+app.post('/rename-case', function(req, res) {
+  req.session.caseRef = req.body['name']
+  res.redirect('/case-overview');
 })
 
 app.get('/details-deceased', function(req, res) {

@@ -5,15 +5,15 @@
     <div class="breadcrumb">
       <ul>
         <li><a href="/cases">Cases</a></li>
-        <li>Unique case ref</li>
+        <li>{{ session.caseRef }}</li>
       </ul>
     </div>
   </div>
 
   <div class="section">
     <h1 class="bold-large">
-      Unique reference
-      <a href="#" class="font-xxsmall">Rename</a>
+      {{ session.caseRef }}
+      <a href="/rename-case" class="font-xxsmall">Rename</a>
     </h1>
     <h2>Status</h2>
   </div>

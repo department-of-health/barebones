@@ -1,0 +1,31 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/case-overview">{{ session.caseRef }}</a></li>
+        <li>Rename case</li>
+      </ul>
+    </div>
+  </div>
+
+  <form method="post" class="section">
+
+    <h1 class="heading-large">Rename case</h1>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="name">New case name</label>
+      <input type="text" class="form-control" id="name" name="name" value="{{ session.caseRef }}" />
+    </div>
+    <div class="form-group">
+      <button class="button" type="submit">Rename case</button>
+      <p>
+        <a href="/case-overview" class="link-back">Cancel and go back to case overview</a>
+      </p>
+    </div>
+
+  </form>
+
+{% endblock %}
