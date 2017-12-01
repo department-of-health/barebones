@@ -9,3 +9,21 @@
     text-decoration: none;
   }
 }
+
+// Phase banners and tags
+// ==========================================================================
+
+.phase-banner {
+  @include phase-banner();
+}
+
+// These classnames are deprecated,
+// they will be removed in a future version of GOV.UK elements
+.phase-banner-alpha,
+.phase-banner-beta {
+  @include phase-banner();
+}
+
+.phase-tag {
+  @include phase-tag();
+}
