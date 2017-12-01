@@ -75,7 +75,15 @@ app.get('/edit-deceased', function(req, res) {
 })
 app.post('/edit-deceased', function(req, res) {
   req.session.deceased = req.body
-  console.log(req.body)
+  // make sure multiple choice elements are always arrays
+  if (typeof req.body['communicable-infections'] === 'string') {
+    var arr = new Array(req.body['communicable-infections'])
+    req.session.deceased['communicable-infections'] = arr
+  }
+  if (typeof req.body['acdp'] === 'string') {
+    var arr = new Array(req.body['acdp'])
+    req.session.deceased['acdp'] = arr
+  }
   // formatting and calculations
   // is the dod (at least) present?
   if (req.body['dod-year'] !== '' && req.body['dod-month'] !== '' && req.body['dod-day'] !== '') {
