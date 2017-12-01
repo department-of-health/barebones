@@ -1,0 +1,49 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <h1>All cases</h1>
+  </div>
+
+  <div class="section">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Case</th>
+          <th scope="col">Deceased</th>
+          <th scope="col">Date and time of death</th>
+          <th scope="col">Last modified</th>
+          <th scope="col">Date opened</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <a href="/case-overview">
+              Unique case ref
+            </a>
+          </td>
+          <td>
+            {% if session.deceased.name %}
+              {{ session.deceased.name }}
+            {% endif %}
+          </td>
+          <td>
+            {% if session.deceased.deathTimestamp %}
+              {{ session.deceased.deathTimestamp | date('YYYY[-]MM[-]DD[ at ]HH[:]mm') }}
+            {% endif %}
+          </td>
+          <td>last mod</td>
+          <td>opened timestamp</td>
+          <td>status</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <a href="#">Open a new case</a>
+  </div>
+
+{% endblock %}
