@@ -22,37 +22,49 @@
 
     <div class="panel-3-up">
       <h3 class="shunt-small">
-        <a href="/details-deceased" class="font-small">
+        {% if session.deceased %}
+          {% set url = '/details-deceased' %}
+        {% else %}
+          {% set url = '/edit-deceased' %}
+        {% endif %}
+        <a href="{{ url }}" class="font-small">
           Deceased<br>
-          <div class="bold-medium">{{ session.deceased['name'] }}</div>
+          {% if session.deceased %}
+            <div class="bold-medium">{{ session.deceased['name'] }}</div>
+          {% endif %}
         </a>
       </h3>
-      <table>
-        <tr>
-          <th scope="row">Died:</th>
-          <td>
-            {% if session.deceased['deathTimestamp'] %}
-              {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }} at {{ session.deceased['deathTimestamp'] | date("HH[:]mm") }}
-            {% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Age:</th>
-          <td>
-            {% if session.deceased['age'] %}
-              {{ session.deceased['age'] }}
-            {% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Type:</th>
-          <td>{{ session.deceased['type-group'] | capitalize }}</td>
-        </tr>
-        <tr>
-          <th scope="row">Cause:</th>
-          <td><a href="#">cause not added</a></td>
-        </tr>
-      </table>
+      {% if session.deceased %}
+        <table>
+          <tr>
+            <th scope="row">Died:</th>
+            <td>
+              {% if session.deceased['deathTimestamp'] %}
+                {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }} at {{ session.deceased['deathTimestamp'] | date("HH[:]mm") }}
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Age:</th>
+            <td>
+              {% if session.deceased['age'] %}
+                {{ session.deceased['age'] }}
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Type:</th>
+            <td>{{ session.deceased['type-group'] | capitalize }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Cause:</th>
+            <td><a href="#">cause not added</a></td>
+          </tr>
+        </table>
+      {% else %}
+        No details yet.
+        <a href="/edit-deceased">Add details</a>
+      {% endif %}
     </div>
 
     <div class="panel-3-up">
