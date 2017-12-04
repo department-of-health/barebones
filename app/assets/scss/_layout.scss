@@ -6,7 +6,7 @@ html, body {
 
 html {
   min-height: 100vh;
-  background-color: $footer-background;
+  background-color: $grey-3;
 }
 
 body {
@@ -39,13 +39,8 @@ body {
 
   @media (min-width: 841px) {
     grid-column: span 4;
-    border-right: 1px solid $grey-3;
     border-bottom: 0;
     padding: 0;
-
-    &:nth-child(3n) {
-      border-right: 0;
-    }
   }
 }
 

@@ -1,0 +1,39 @@
+.status-new {
+  color: $green;
+  font-weight: 700;
+}
+.case-status {
+
+  @extend .font-xxsmall;
+
+  ul {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @extend %contain-floats;
+
+    li {
+      float: left;
+      display: block;
+      width: $gutter;
+      height: $gutter-small;
+      background-color: $grey-3;
+      margin-right: $gutter-nano;
+
+      &:hover > span {
+        visibility: visible;
+      }
+    }
+
+    span {
+      visibility: hidden;
+      position: absolute;
+      left: 0;
+      bottom: -$gutter-small;
+      display: block;
+      white-space: nowrap;
+    }
+  }
+}

@@ -15,7 +15,32 @@
       {{ session.caseRef }}
       <a href="/rename-case" class="font-xxsmall">Rename</a>
     </h1>
-    <h2>Status</h2>
+  </div>
+
+  <div class="section">
+    <div class="case-status">
+      <h2 class="font-xsmall shunt-tiny">Status: <span class="status-new">new</span></h2>
+      <ul>
+        <li>
+          <span>ME scrutiny</span>
+        </li>
+        <li>
+          <span>External examination</span>
+        </li>
+        <li>
+          <span>QAP and ME discussion</span>
+        </li>
+        <li>
+          <span>ME signed off cause of death</span>
+        </li>
+        <li>
+          <span>Discussion with informant</span>
+        </li>
+        <li>
+          <span>Informant assent</span>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="grid">
@@ -28,9 +53,15 @@
           {% set url = '/edit-deceased' %}
         {% endif %}
         <a href="{{ url }}" class="font-small">
-          Deceased<br>
+          Deceased
           {% if session.deceased %}
-            <div class="bold-medium">{{ session.deceased['name'] }}</div>
+            <div class="bold-medium">
+              {% if session.deceased['name'] %}
+                {{ session.deceased['name'] }}
+              {% else %}
+                <span class="not-set">Name not yet added</span>
+              {% endif %}
+            </div>
           {% endif %}
         </a>
       </h3>
@@ -41,6 +72,8 @@
             <td>
               {% if session.deceased['deathTimestamp'] %}
                 {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }} at {{ session.deceased['deathTimestamp'] | date("HH[:]mm") }}
+              {% else %}
+                <span class="not-set">Not yet added</span>
               {% endif %}
             </td>
           </tr>
@@ -49,12 +82,20 @@
             <td>
               {% if session.deceased['age'] %}
                 {{ session.deceased['age'] }}
+              {% else %}
+                <span class="not-set">Not yet added</span>
               {% endif %}
             </td>
           </tr>
           <tr>
             <th scope="row">Type:</th>
-            <td>{{ session.deceased['type-group'] | capitalize }}</td>
+            <td>
+              {% if session.deceased['type-group'] %}
+                {{ session.deceased['type-group'] | capitalize }}
+              {% else %}
+                <span class="not-set">Not yet added</span>
+              {% endif %}
+            </td>
           </tr>
           <tr>
             <th scope="row">Cause:</th>
@@ -79,6 +120,9 @@
       <h3 class="shunt-small">
         <a href="#" class="font-small">Contacts</a>
       </h3>
+      No contacts assigned yet.
+      <a href="#">Add contacts</a>
+      <!--
       <div class="shunt-medium">
         <h5 class="shunt-tiny">
           Medical Examiner<br>
@@ -112,6 +156,7 @@
       <div class="shunt-medium">
         <a href="#">James McNulty, son</a>
       </div>
+      -->
     </div>
 
   </div>

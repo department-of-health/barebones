@@ -66,6 +66,7 @@ app.get('/', function(req, res) {
 app.get('/start', function(req, res) {
   req.session.starting = true
   req.session.caseRef = config.caseRef
+  req.session.caseStatus = 'new'
   res.render('start.html', {
     session: req.session
   })

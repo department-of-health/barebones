@@ -11,9 +11,9 @@
     </div>
   </div>
 
-  <form method="post" class="section">
+  <form method="post" class="section text">
 
-    <h1 class="heading-large">The deceased</h1>
+    <h1 class="bold-large shunt-medium">The deceased</h1>
 
     <div class="form-group">
       <label class="form-label-bold" for="name">Name</label>
@@ -90,7 +90,7 @@
       </div>
       <div class="form-group">
         <label for="last-postcode" class="form-label">Postcode</label>
-        <input type="text" id="last-postcode" name="last-postcode" class="form-control"
+        <input type="text" id="last-postcode" name="last-postcode" class="form-control form-control-1-2"
           value="{{ session.deceased['last-postcode'] }}">
       </div>
     </fieldset>
@@ -103,7 +103,7 @@
 
     <div class="form-group">
       <label class="form-label-bold" for="nhs-number">NHS number</label>
-      <input type="text" class="form-control" id="nhs-number" name="nhs-number"
+      <input type="text" class="form-control form-control-1-2" id="nhs-number" name="nhs-number"
         value="{{ session.deceased['nhs-number'] }}">
       <!--<div>
         <a href="#">PDS lookup</a>
@@ -178,7 +178,7 @@
 
       </div>
 
-      <h2 class="heading-large">The death</h2>
+      <h2 class="bold-large shunt-medium">The death</h2>
 
       <div class="floats">
         <div class="form-group">
@@ -313,7 +313,7 @@
         </div>
         <div class="form-group">
           <label for="death-postcode" class="form-label">Postcode</label>
-          <input type="text" id="death-postcode" name="death-postcode" class="form-control"
+          <input type="text" id="death-postcode" name="death-postcode" class="form-control form-control-1-2"
             value="{{ session.deceased['death-postcode'] }}">
         </div>
       </fieldset>
@@ -326,7 +326,7 @@
 
       <button class="button" type="submit">Save details</button>
       <p>
-        <a href="/case-overview" class="link-back">Cancel and go back to case overview</a>
+        <a href="/details-deceased" class="link-back">Cancel and go back to details</a>
       </p>
     </div>
 
