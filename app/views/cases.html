@@ -38,9 +38,12 @@
               <span class="not-set">Not yet added</span>
             {% endif %}
           </td>
-          <td>last mod</td>
-          <td>opened timestamp</td>
-          <td>{{ session.caseStatus }}</td>
+          <td>{{ session.modificationTimestamp | date('YYYY[-]MM[-]DD[ at ]HH[:]mm') }}</td>
+          <td>{{ session.caseCreated | date('YYYY[-]MM[-]DD[ at ]HH[:]mm') }}</td>
+          <td>
+            {% set status = 'new' %}
+            <span class="status-{{ status }}">{{ session.caseStatus }}</span>
+          </td>
         </tr>
       </tbody>
     </table>
