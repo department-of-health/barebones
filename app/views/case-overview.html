@@ -17,9 +17,12 @@
     </h1>
   </div>
 
-  <div class="section">
-    <div class="case-status">
-      <h2 class="font-xsmall shunt-tiny">Status: <span class="status-new">new</span></h2>
+  <div class="section floats bordered">
+    <div class="case-status shunt-small">
+      <h2 class="font-xsmall shunt-tiny">Status:
+        {% set status = 'new' %}
+        <span class="status-{{ status }}">{{ session.caseStatus }}</span>
+      </h2>
       <ul>
         <li>
           <span>ME scrutiny</span>
@@ -40,6 +43,12 @@
           <span>Informant assent</span>
         </li>
       </ul>
+    </div>
+    <div class="shunt-tiny">
+      Edited {{ session.modificationTimestamp | date('D MMMM YYYY [ at ] HH:mm') }}
+    </div>
+    <div class="shunt-tiny">
+      Created {{ session.caseCreated | date('D MMMM YYYY [ at ] HH:mm') }}
     </div>
   </div>
 

@@ -64,7 +64,10 @@ app.get('/', function(req, res) {
 })
 
 app.get('/start', function(req, res) {
+  var creation = new moment()
   req.session.starting = true
+  req.session.caseCreated = creation
+  req.session.modificationTimestamp = creation
   req.session.caseRef = config.caseRef
   req.session.caseStatus = 'new'
   res.render('start.html', {
@@ -73,6 +76,7 @@ app.get('/start', function(req, res) {
 })
 
 app.post('/rename-case', function(req, res) {
+  req.session.modificationTimestamp = new moment() // POST indicates modifcation (a bit weak but prototype)
   req.session.caseRef = req.body['name']
   res.redirect('/case-overview');
 })
@@ -92,6 +96,7 @@ app.get('/edit-deceased', function(req, res) {
   })
 })
 app.post('/edit-deceased', function(req, res) {
+  req.session.modificationTimestamp = new moment() // POST indicates modifcation (a bit weak but prototype)
   req.session.deceased = req.body
   // make sure multiple choice elements are always arrays
   if (typeof req.body['communicable-infections'] === 'string') {
