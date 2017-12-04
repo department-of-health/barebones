@@ -18,11 +18,18 @@
 fieldset {
   @extend %contain-floats;
   width: 100%;
+  margin: 0 0 $gutter-half 0;
+
+  @include media(tablet) {
+    margin-bottom: $gutter;
+  }
 }
 
 // Hack to let legends or elements within legends have margins in webkit browsers
 legend {
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 // Fix left hand gap in IE7 and below
@@ -65,18 +72,18 @@ textarea {
   }
 }
 
+fieldset > .form-group {
+  margin-bottom: 0;
+}
+
 // Form group related is used to reduce the space between label and input pairs
 .form-group-related {
-  margin-bottom: 10px;
-
-  @include media(tablet) {
-    margin-bottom: 20px;
-  }
+  margin-bottom: $gutter-tiny;
 }
 
 // Form group compound is used to reduce the space between label and input pairs
 .form-group-compound {
-  margin-bottom: 10px;
+  margin-bottom: $gutter-tiny;
 }
 
 
@@ -89,15 +96,11 @@ textarea {
 .form-label-bold {
   display: block;
   color: $text-colour;
-  padding-bottom: 2px;
-}
-
-.form-label {
-  @include core-19;
+  padding-bottom: $gutter-tiny;
 }
 
 .form-label-bold {
-  @include bold-19;
+  font-weight: $bold-weight;
 }
 
 // Used for the 'or' in between block label options
@@ -105,12 +108,11 @@ textarea {
   float: left;
   clear: left;
 
-  margin-top: -5px;
-  margin-bottom: 5px;
+  margin-top: -$gutter-tiny;
+  margin-bottom: $gutter-tiny;
 
   @include media(tablet) {
     margin-top: 0;
-    margin-bottom: 10px;
   }
 }
 
@@ -119,13 +121,13 @@ textarea {
 
 // Form hints and example text are light grey and sit above a form control
 .form-hint {
-  @include core-19;
+  //@include core-19;
   display: block;
   color: $secondary-text-colour;
   font-weight: normal;
 
-  margin-top: -2px;
-  padding-bottom: 2px;
+  margin-top: -$gutter-tiny;
+  margin-bottom: $gutter-tiny;
 }
 
 .form-label .form-hint,
@@ -141,13 +143,14 @@ textarea {
 // and 100% width for mobile
 .form-control {
   @include box-sizing(border-box);
-  @include core-19;
+  @include core-16;
   width: 100%;
 
-  padding: 5px 4px 4px;
+  margin-bottom: $gutter-tiny;
+  padding: $gutter-tiny;
   // setting any background-color makes text invisible when changing colours to dark backgrounds in Firefox (https://bugzilla.mozilla.org/show_bug.cgi?id=1335476)
   // as background-color and color need to always be set together, color should not be set either
-  border: 2px solid $text-colour;
+  border: $gutter-nano solid $text-colour;
 
 }
 
@@ -243,7 +246,7 @@ select:focus::-ms-value {
   clear: left;
   position: relative;
 
-  padding: 0 0 0 38px;
+  padding: 0 0 0 24px;
   margin-bottom: $gutter-one-third;
 
   @include media(tablet) {
@@ -256,8 +259,8 @@ select:focus::-ms-value {
     cursor: pointer;
     left: 0;
     top: 0;
-    width: 38px;
-    height: 38px;
+    width: 24px;
+    height: 24px;
     z-index: 1;
 
     // IE8 doesn’t support pseudoelements, so we don’t want to hide native elements there.
@@ -269,7 +272,7 @@ select:focus::-ms-value {
 
   label {
     cursor: pointer;
-    padding: 8px $gutter-one-third 9px 12px;
+    padding: 0 $gutter-one-third 9px 12px;
     display: block;
 
     // remove 300ms pause on mobile
@@ -278,7 +281,7 @@ select:focus::-ms-value {
 
     @include media(tablet) {
       float: left;
-      padding-top: 7px;
+      padding-top: 2px;
       padding-bottom: 7px;
     }
   }
@@ -287,8 +290,8 @@ select:focus::-ms-value {
     content: "";
     border: 2px solid;
     background: transparent;
-    width: 34px;
-    height: 34px;
+    width: 20px;
+    height: 20px;
     position: absolute;
     top: 0;
     left: 0;
@@ -297,12 +300,12 @@ select:focus::-ms-value {
 
   [type=radio] + label::after {
     content: "";
-    border: 10px solid;
+    border: 7px solid;
     width: 0;
     height: 0;
     position: absolute;
-    top: 9px;
-    left: 9px;
+    top: 5px;
+    left: 5px;
     @include border-radius(50%);
     @include opacity(0);
   }
@@ -311,8 +314,8 @@ select:focus::-ms-value {
     content: "";
     border: 2px solid;
     background: transparent;
-    width: 34px;
-    height: 34px;
+    width: 20px;
+    height: 20px;
     position: absolute;
     top: 0;
     left: 0;
@@ -324,11 +327,11 @@ select:focus::-ms-value {
     border-width: 0 0 5px 5px;
     background: transparent;
     border-top-color: transparent;
-    width: 17px;
-    height: 7px;
+    width: 11px;
+    height: 6px;
     position: absolute;
-    top: 10px;
-    left: 8px;
+    top: 4px;
+    left: 4px;
     -moz-transform: rotate(-45deg); // Firefox 15 compatibility
     -o-transform: rotate(-45deg); // Opera 12.0 compatibility
     -webkit-transform: rotate(-45deg); // Safari 8 compatibility

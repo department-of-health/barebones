@@ -37,7 +37,7 @@
   background-image: file-url("icon-pointer.png");
   background-repeat: no-repeat;
   background-position: 100% 50%;
-  padding: em(7) em(41) em(4) em(16);
+  padding: $gutter-tiny $gutter+$gutter-small $gutter-tiny $gutter-small;
 
   @include device-pixel-ratio {
     background-image: file-url("icon-pointer-2x.png");

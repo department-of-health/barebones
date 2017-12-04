@@ -27,16 +27,20 @@
           <td>
             {% if session.deceased.name %}
               {{ session.deceased.name }}
+            {% else %}
+              <span class="not-set">Name not yet added</span>
             {% endif %}
           </td>
           <td>
             {% if session.deceased.deathTimestamp %}
               {{ session.deceased.deathTimestamp | date('YYYY[-]MM[-]DD[ at ]HH[:]mm') }}
+            {% else %}
+              <span class="not-set">Not yet added</span>
             {% endif %}
           </td>
           <td>last mod</td>
           <td>opened timestamp</td>
-          <td>status</td>
+          <td>{{ session.caseStatus }}</td>
         </tr>
       </tbody>
     </table>

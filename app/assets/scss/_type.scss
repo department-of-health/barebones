@@ -8,7 +8,7 @@ $toolkit-font-stack-tabular: monospace;
 // Using the core-19 mixin from the govuk_toolkit _typography.scss file
 
 main {
-  @include core-19;
+  @include core-16;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -72,7 +72,7 @@ main {
 
 // Bold, without needing a font size
 .bold {
-  font-weight: 700;
+  font-weight: $bold-weight;
 }
 
 // Common heading sizes
@@ -323,4 +323,9 @@ hr {
 .data-item {
   display: block;
   line-height: 1;
+}
+
+// not Set
+.not-set {
+  color: $grey-2;
 }
