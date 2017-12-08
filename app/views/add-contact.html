@@ -1,0 +1,35 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/case-overview">{{ session.caseRef }}</a></li>
+        {% if session.contacts.length > 0 %}
+          <li><a href="/contacts">Contacts</a></li>
+        {% endif %}
+        <li>Add contact</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h1>Add a contact</h1>
+
+    <p>Add someone connected with:</p>
+
+    <ul>
+      <li>
+        <a href="/edit-contact-examination">the case</a> - for example an ME or QAP
+      </li>
+      <li>
+        <a href="/edit-contact-deceased">the deceased</a> - for example the next of kin or carer
+      </li>
+    </ul>
+
+    <p>
+      <a href="/case-overview" class="link-back">Cancel and go back</a>
+    </p>
+
+{% endblock %}

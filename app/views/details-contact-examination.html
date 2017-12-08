@@ -1,0 +1,86 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/case-overview">{{ session.caseRef }}</a></li>
+        {% if session.contacts.length > 1 %}
+        <li><a href="/contacts">Contacts</a></li>
+        {% endif %}
+        <li>Contact details</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h1>
+      <div class="font-small">{{ details['role'] | capitalize }}</div>
+      {% if details['name'] %}
+        {{ details['name'] }}
+      {% else %}
+        <span class="not-set">Name not yet added</span>
+      {% endif %}
+    </h1>
+  </div>
+
+  <div class="section bordered">
+    <h2 class="font-xxsmall">Primary contact method</h2>
+    {% for item in details['methods'] %}
+      {% if item['name'] == details['primary-channel'] %}
+        {{ item['title'] | capitalize }}: <b>{{ item['value'] }}</b>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="section bordered">
+    <h4 class="font-small shunt-small">Other contact details</h4>
+    <div class="floats">
+      {% for item in details['methods'] %}
+      <div>
+        <div class="font-xxsmall">{{ item['title'] | capitalize }}</div>
+        {% if item['name'] == 'address' %}
+          {% for line in item['value'] %}
+            {% if line != '' %}
+              {{ line }}<br>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {{ item['value'] }}
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="section floats">
+    <div class="shunt-tiny">
+      <div class="font-xxsmall">Profession</div>
+      {{ details['profession'] }}
+    </div>
+    <div class="shunt-tiny">
+      <div class="font-xxsmall">GMC code</div>
+      {{ details['gmc-code'] }}
+    </div>
+  </div>
+
+  <div class="section bordered">
+    <h2 class="font-xxsmall">Notes</h2>
+    {% if details['notes'] !== '' %}
+      {{ details['notes'] }}
+    {% else %}
+      <p class="not-set">No notes</p>
+    {% endif %}
+  </div>
+
+  <div class="section">
+    <p>
+      <a href="/edit-contact-examination/{{ details['url-name'] }}">Edit details</a>
+    </p>
+    <p>
+      <a href="/case-overview">Go to {{ session.caseRef }} overview</a>
+    </p>
+  </div>
+
+{% endblock %}

@@ -45,10 +45,12 @@
       </ul>
     </div>
     <div class="shunt-tiny">
-      Edited {{ session.modificationTimestamp | date('D MMMM YYYY [ at ] HH:mm') }}
+      <div class="font-xxsmall shunt-tiny">Edited</div>
+      {{ session.modificationTimestamp | date('D MMMM YYYY [ at ] HH:mm') }}
     </div>
     <div class="shunt-tiny">
-      Created {{ session.caseCreated | date('D MMMM YYYY [ at ] HH:mm') }}
+      <div class="font-xxsmall shunt-tiny">Created</div>
+      {{ session.caseCreated | date('D MMMM YYYY [ at ] HH:mm') }}
     </div>
   </div>
 
@@ -127,31 +129,39 @@
 
     <div class="panel-3-up">
       <h3 class="shunt-small">
-        <a href="#" class="font-small">Contacts</a>
+        {% if session.contacts.length > 0 %}
+          {% set url = '/contacts' %}
+        {% else %}
+          {% set url = '/add-contact' %}
+        {% endif %}
+        <a href="{{ url }}" class="font-small">Contacts</a>
       </h3>
-      No contacts assigned yet.
-      <a href="#">Add contacts</a>
+      {% if session.contacts.length > 0 %}
+        {% for contact in session.contacts %}
+          <div class="shunt-medium">
+            <h5 class="font-xxsmall shunt-tiny">
+              {{ contact['role'] | capitalize }}<br>
+              <div class="bold-medium">
+                <a href="/details-contact-examination/{{ contact['url-name'] }}">{{ contact['name'] }}</a>
+              </div>
+            </h5>
+            <div class="shunt-tiny">
+              {% for item in contact['methods'] %}
+                {% if item['name'] == contact['primary-channel'] %}
+                  {{ item['value'] }}
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="shunt-tiny">
+              <a href="/details-contact-examination/{{ contact['url-name'] }}">Full contact details</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        No contacts assigned yet.
+        <a href="/add-contact">Add contacts</a>
+      {% endif %}
       <!--
-      <div class="shunt-medium">
-        <h5 class="shunt-tiny">
-          Medical Examiner<br>
-          <div class="bold-medium">Dr. Evan Atkinson</div>
-        </h5>
-        Best contact: 07937 370 0377
-        <div class="shunt-tiny">
-          <a href="#">Full contact details</a>
-        </div>
-      </div>
-      <div class="shunt-medium">
-        <h5 class="shunt-tiny">
-          Qualified attending practitioner<br>
-          <div class="bold-medium">Dr. Chloe North</div>
-        </h5>
-        Best contact: 07937 370 0377
-        <div class="shunt-tiny">
-          <a href="#">Full contact details</a>
-        </div>
-      </div>
       <div class="shunt-medium">
         <h5 class="shunt-tiny">
           Informant<br>

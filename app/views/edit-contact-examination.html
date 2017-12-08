@@ -1,0 +1,146 @@
+{% extends '_layouts/admin.html' %}
+
+{% block header_before %}
+<a href="#" id="fill-details" tabindex="-1" style="position: absolute; right: 0; top: 0; color: #00ad93;">
+  Fill in form
+</a>
+{% endblock %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/case-overview">{{ session.caseRef }}</a></li>
+        {% if session.contacts.length > 0 %}
+          <li><a href="/contacts">Contacts</a></li>
+        {% endif %}
+        <li>Contact: add or amend details</li>
+      </ul>
+    </div>
+  </div>
+
+  <form method="post" class="section text">
+
+    <h1 class="bold-large shunt-medium">Personal details</h1>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="name">Contact name</label>
+      <input type="text" class="form-control" id="name" name="name">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="role">Role</label>
+      <select class="form-control" name="role" id="role">
+        <option value="Role not yet added"></option>
+        <option value="medical examiner">Medical examiner</option>
+        <option value="medical examiner’s officer">Medical examiner’s officer</option>
+        <option value="qualified attending practitioner">Qualified attending practitioner</option>
+        <option value="coroner">Coroner</option>
+        <option value="cororner’s officer">Coroner’s officer</option>
+        <option value="pathologist">Pathologist (for example external examinations)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="profession">Profession</label>
+      <span class="form-hint">For example pathologist</span>
+      <input type="text" class="form-control" id="profession" name="profession">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="gmc-code">GMC code</label>
+      <input type="text" class="form-control" id="gmc-code" name="gmc-code">
+    </div>
+
+    <h2 class="bold-large shunt-medium">Contact details</h2>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="tel-primary">Primary contact telephone</label>
+      <span class="form-hint">For example a mobile number</span>
+      <input type="text" class="form-control" id="tel-primary" name="tel-primary">
+      <input type="radio" class="form-control" id="primary-channel-1" name="primary-channel" value="tel-primary">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="tel-secondary">Secondary contact telephone</label>
+      <input type="text" class="form-control" id="tel-secondary" name="tel-secondary">
+      <input type="radio" class="form-control" id="primary-channel-2" name="primary-channel" value="tel-secondary">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="tel-pager">Pager</label>
+      <input type="text" class="form-control" id="tel-pager" name="tel-pager">
+      <input type="radio" class="form-control" id="primary-channel-3" name="primary-channel" value="tel-pager">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="email">Email</label>
+      <input type="text" class="form-control" id="email" name="email">
+      <input type="radio" class="form-control" id="primary-channel-4" name="primary-channel" value="tel-email">
+    </div>
+
+    <fieldset>
+      <div class="form-group">
+        <label for="address-1" class="form-label-bold">
+          Address
+        </label>
+        <div>
+          <input type="text" id="address-1" name="address-1" class="form-control">
+        </div>
+        <div>
+          <input type="text" id="address-2" name="address-2" class="form-control">
+        </div>
+        <div>
+          <input type="text" id="address-3" name="address-3" class="form-control">
+        </div>
+        <div>
+          <input type="text" id="address-4" name="address-4" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="postcode" class="form-label">Postcode</label>
+        <input type="text" id="postcode" name="postcode" class="form-control form-control-1-2">
+      </div>
+    </fieldset>
+
+    <div class="form-group">
+      <label class="form-label-bold" for="notes">Notes</label>
+      <textarea class="form-control" name="notes" id="notes" rows="5"></textarea>
+    </div>
+
+    <button class="button" type="submit">Save contact details</button>
+    <p>
+      <a href="/add-contact" class="link-back">Cancel and go back</a>
+    </p>
+
+  </form>
+
+{% endblock %}
+
+
+{% block body_after %}
+<script type="text/javascript">
+  $(function() {
+    $('#fill-details').on('click', function(e) {
+      e.preventDefault()
+      $('#name').val('Dr Evan Atkinson')
+      $('#role option[value=ME]').attr('selected', 'selected')
+      $('#profession').val('Pathologist')
+      $('#gmc-code').val('3188582')
+      $('#tel-primary').val('07962 042 042')
+      $('#primary-channel-1').click();
+      $('#tel-secondary').val('01189 119 234')
+      $('#tel-pager').val('07962 959 959')
+      $('#email').val('eatkinson@gcp.org.uk')
+      $('#address-1').val('Charing Cross Hospital')
+      $('#address-2').val('Fulham Palace Road')
+      $('#address-3').val('London')
+      $('#postcode').val('W6 8RF')
+    })
+  });
+</script>
+{% endblock %}
+
+
+    07937 370 0377

@@ -65,7 +65,6 @@ app.get('/', function(req, res) {
 
 app.get('/start', function(req, res) {
   var creation = new moment()
-  req.session.starting = true
   req.session.caseCreated = creation
   req.session.modificationTimestamp = creation
   req.session.caseRef = config.caseRef
@@ -81,20 +80,6 @@ app.post('/rename-case', function(req, res) {
   res.redirect('/case-overview');
 })
 
-app.get('/details-deceased', function(req, res) {
-  res.render('details-deceased.html', {
-    session: req.session
-  })
-  if (req.session.starting = true) {
-    req.session.starting = false
-  }
-})
-
-app.get('/edit-deceased', function(req, res) {
-  res.render('edit-deceased.html', {
-    session: req.session
-  })
-})
 app.post('/edit-deceased', function(req, res) {
   req.session.modificationTimestamp = new moment() // POST indicates modifcation (a bit weak but prototype)
   req.session.deceased = req.body
@@ -131,6 +116,56 @@ app.post('/edit-deceased', function(req, res) {
     req.session.deceased.age = age
   }
   res.redirect('/details-deceased');
+})
+
+app.post('/edit-contact-examination', function(req, res) {
+  if (typeof req.session.contacts === 'undefined') {
+    req.session.contacts = []
+  }
+  // let's build up the 'contact' object
+  var contact = {}
+  contact['type'] = 'examination'
+  contact['name'] = req.body['name']
+  var urlName = req.body['name'].toLowerCase().replace(/ /g, '-')
+  contact['url-name'] = urlName
+  contact['role'] = req.body['role']
+  contact['profession'] = req.body['profession']
+  contact['gmc-code'] = req.body['gmc-code']  // UID
+  contact['primary-channel'] = req.body['primary-channel']
+  contact.methods = []
+  contact.methods.push({ name: 'tel-primary', title: 'telephone', value: req.body['tel-primary'] })
+  contact.methods.push({ name: 'tel-secondary', title: 'telephone', value: req.body['tel-secondary'] })
+  contact.methods.push({ name: 'tel-pager', title: 'pager', value: req.body['tel-pager'] })
+  contact.methods.push({ name: 'email', title: 'email', value: req.body['email'] })
+  contact.methods.push({
+    name: 'address',
+    title: 'address',
+    value: [
+      req.body['address-1'],
+      req.body['address-2'],
+      req.body['address-3'],
+      req.body['address-4'],
+      req.body['postcode']
+    ]
+  })
+  contact.notes = req.body['notes']
+  req.session.contacts.push(contact);
+  res.redirect('/details-contact-examination/' + urlName);
+})
+
+app.get('/details-contact-examination/:contactId', function(req, res) {
+  var contact = req.params['contactId']
+  var contacts = req.session['contacts']
+  for (var c = 0; c < contacts.length; c++) {
+    if (contacts[c]['url-name'] === contact) {
+      var plucked = contacts[c]
+      break;
+    }
+  }
+  res.render('details-contact-examination', {
+    details: plucked,
+    session: req.session
+  });
 })
 
 // auto render any view that exists
