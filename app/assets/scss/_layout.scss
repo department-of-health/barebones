@@ -51,10 +51,10 @@ body {
   @media (min-width: 841px) {
     > * {
       float: left;
-      margin-left: $gutter-xlarge;
+      margin-right: $gutter-xlarge;
 
-      &:first-child {
-        margin-left: 0;
+      &:last-child {
+        margin-right: 0;
       }
     }
   }
