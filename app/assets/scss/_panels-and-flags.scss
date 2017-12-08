@@ -1,0 +1,10 @@
+.flag {
+  @include inline-block;
+  margin: 0 $gutter-medium 0 0;
+  padding: $gutter-nano $gutter-tiny;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color: $black;
+  background-color: $department_of_health;
+}

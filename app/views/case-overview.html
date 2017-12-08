@@ -127,14 +127,15 @@
 
     <div class="panel-3-up">
       <h3 class="font-small shunt-small">
-        {% if session.contacts.length > 0 %}
+        {% if session.contacts > 0 %}
           Contacts
         {% else %}
           <a href="/add-contact">Contacts</a>
         {% endif %}
       </h3>
-      {% if session.contacts.length > 0 %}
-        {% for contact in session.contacts %}
+      {# Do 'examining' contacts first #}
+      {% if session['contacts-examination'].length > 0 %}
+        {% for contact in session['contacts-examination'] %}
           <div class="shunt-medium">
             <h5 class="font-xxsmall shunt-tiny">
               {{ contact['role'] | capitalize }}<br>
@@ -154,12 +155,41 @@
             </div>
           </div>
         {% endfor %}
+      {% endif %}
+
+      {% if session['contacts-deceased'].length > 0 %}
+        {% for contact in session['contacts-deceased'] %}
+          <div class="shunt-medium">
+            {% if contact['informant'] === 'yes' %}
+              <div class="flag bold-xxsmall">Informant</div>
+            {% endif %}
+            <h5 class="font-xxsmall shunt-tiny">
+              {{ contact['relationship'] | capitalize }}<br>
+              <div class="bold-medium">
+                <a href="/details-contact-examination/{{ contact['url-name'] }}">{{ contact['name'] }}</a>
+              </div>
+            </h5>
+            <div class="shunt-tiny">
+              {% for item in contact['methods'] %}
+                {% if item['name'] == contact['primary-channel'] %}
+                  {{ item['value'] }}
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="shunt-tiny">
+              <a href="/details-contact-examination/{{ contact['url-name'] }}">Full details</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% if session.contacts == 0 %}
+        No contacts assigned yet.
+        <a href="/add-contact">Add contact</a>
+      {% else %}
         <div>
           <p><a href="/add-contact">Add a new contact</a></p>
         </div>
-      {% else %}
-        No contacts assigned yet.
-        <a href="/add-contact">Add contact</a>
       {% endif %}
     </div>
 

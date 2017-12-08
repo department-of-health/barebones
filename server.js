@@ -60,7 +60,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.get('/', function(req, res) {
   req.session.destroy()
-  res.render('index.html')
+  res.render('index')
 })
 
 app.get('/start', function(req, res) {
@@ -69,7 +69,14 @@ app.get('/start', function(req, res) {
   req.session.modificationTimestamp = creation
   req.session.caseRef = config.caseRef
   req.session.caseStatus = 'new'
-  res.render('start.html', {
+  req.session.contacts = 0
+  res.render('start', {
+    session: req.session
+  })
+})
+
+app.get('/case-overview', function(req, res) {
+  res.render('case-overview', {
     session: req.session
   })
 })
@@ -120,12 +127,12 @@ app.post('/edit-deceased', function(req, res) {
 
 // a post with NO slug is a new contact
 app.post('/edit-contact-examination', function(req, res) {
-  if (typeof req.session.contacts === 'undefined') {
-    req.session.contacts = []
+  req.session.modificationTimestamp = new moment()
+  if (typeof req.session['contacts-examination'] === 'undefined') {
+    req.session['contacts-examination'] = []
   }
   // let's build up the 'contact' object
   var contact = {}
-  contact['type'] = 'examination'
   contact['name'] = req.body['name']
   var urlName = req.body['name'].toLowerCase().replace(/ /g, '-')
   contact['url-name'] = urlName
@@ -150,14 +157,52 @@ app.post('/edit-contact-examination', function(req, res) {
     ]
   })
   contact.notes = req.body['notes']
-  req.session.contacts.push(contact);
+  req.session['contacts-examination'].push(contact)
+  req.session.contacts++
   res.redirect('/details-contact-examination/' + urlName);
 })
 
-// return contact details
+// a post with NO slug is a new contact
+app.post('/edit-contact-deceased', function(req, res) {
+  req.session.modificationTimestamp = new moment()
+  if (typeof req.session['contacts-deceased'] === 'undefined') {
+    req.session['contacts-deceased'] = []
+  }
+  // let's build up the 'contact' object
+  var contact = {}
+  contact['name'] = req.body['name']
+  var urlName = req.body['name'].toLowerCase().replace(/ /g, '-')
+  contact['url-name'] = urlName
+  contact['relationship'] = req.body['relationship']
+  contact['present-at-death'] = req.body['present-at-death']
+  contact['informant'] = req.body['informant']
+  contact['primary-channel'] = req.body['primary-channel']
+  contact.methods = []
+  contact.methods.push({ name: 'tel-primary', title: 'telephone', value: req.body['tel-primary'] })
+  contact.methods.push({ name: 'tel-secondary', title: 'telephone', value: req.body['tel-secondary'] })
+  contact.methods.push({ name: 'tel-pager', title: 'pager', value: req.body['tel-pager'] })
+  contact.methods.push({ name: 'email', title: 'email', value: req.body['email'] })
+  contact.methods.push({
+    name: 'address',
+    title: 'address',
+    value: [
+      req.body['address-1'],
+      req.body['address-2'],
+      req.body['address-3'],
+      req.body['address-4'],
+      req.body['postcode']
+    ]
+  })
+  contact.notes = req.body['notes']
+  req.session['contacts-deceased'].push(contact);
+  req.session.contacts++
+  res.redirect('/details-contact-deceased/' + urlName);
+})
+
+// return contact details - professional
 app.get('/details-contact-examination/:contactId', function(req, res) {
   var contact = req.params['contactId']
-  var contacts = req.session['contacts']
+  var contacts = req.session['contacts-examination']
   for (var c = 0; c < contacts.length; c++) {
     if (contacts[c]['url-name'] === contact) {
       var plucked = contacts[c]
@@ -170,10 +215,26 @@ app.get('/details-contact-examination/:contactId', function(req, res) {
   });
 })
 
+// return contact details - citizen
+app.get('/details-contact-deceased/:contactId', function(req, res) {
+  var contact = req.params['contactId']
+  var contacts = req.session['contacts-deceased']
+  for (var c = 0; c < contacts.length; c++) {
+    if (contacts[c]['url-name'] === contact) {
+      var plucked = contacts[c]
+      break;
+    }
+  }
+  res.render('details-contact-deceased', {
+    details: plucked,
+    session: req.session
+  });
+})
+
 // Edit a contact
 app.get('/edit-contact-examination/:contactId', function(req, res) {
   var contact = req.params['contactId']
-  var contacts = req.session['contacts']
+  var contacts = req.session['contacts-examination']
   for (var c = 0; c < contacts.length; c++) {
     if (contacts[c]['url-name'] === contact) {
       var plucked = contacts[c]
@@ -186,11 +247,12 @@ app.get('/edit-contact-examination/:contactId', function(req, res) {
     session: req.session
   });
 })
+
 // a post WITH a slug is an edit
 app.post('/edit-contact-examination/:contactId', function(req, res) {
+  req.session.modificationTimestamp = new moment()
   // build a new 'contact' object
   var contact = {}
-  contact['type'] = 'examination'
   contact['name'] = req.body['name']
   var urlName = req.body['name'].toLowerCase().replace(/ /g, '-')
   contact['url-name'] = urlName
@@ -218,9 +280,9 @@ app.post('/edit-contact-examination/:contactId', function(req, res) {
 
   // Get the right contact to edit
   var target = req.params['contactId']
-  for (var c = 0; c < req.session['contacts'].length; c++) {
-    if (req.session['contacts'][c]['url-name'] === target) {
-      req.session['contacts'][c] = contact
+  for (var c = 0; c < req.session['contacts-examination'].length; c++) {
+    if (req.session['contacts-examination'][c]['url-name'] === target) {
+      req.session['contacts-examination'][c] = contact
       break;
     }
   }
