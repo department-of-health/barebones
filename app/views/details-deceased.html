@@ -150,23 +150,17 @@
       {% if session.deceased['communicable-infections'] %}
         {% for item in session.deceased['communicable-infections'] %}
           {{ item | title }}<br>
-        {% else %}
-          None<br>
         {% endfor %}
       {% else %}
-        <span class="not-set">Not yet added</span>
+        <span class="not-set">None</span>
       {% endif %}
     </div>
     <div class="shunt-tiny">
       <div class="font-xxsmall">ACDP hazard groups</div>
       {% if session.deceased['acdp'] %}
-        {% if session.deceased['acdp'] !== '' %}
-          {{ session.deceased['acdp'] }}
-        {% else %}
-          None
-        {% endif %}
+        {{ session.deceased['acdp'] }}
       {% else %}
-        <span class="not-set">Not yet added</span>
+        <span class="not-set">None</span>
       {% endif %}
     </div>
   </div>
