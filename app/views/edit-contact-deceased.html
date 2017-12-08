@@ -45,12 +45,12 @@
         </legend>
         <div class="multiple-choice">
           <input id="present-yes" type="radio" name="present-at-death" value="yes"
-            {% if session.XXXX['present-at-death'] == "yes" %}checked="checked"{% endif %}>
+            {% if details['present-at-death'] == "yes" %}checked="checked"{% endif %}>
           <label for="present-yes">Yes</label>
         </div>
         <div class="multiple-choice">
           <input id="present-no" type="radio" name="present-at-death" value="no"
-            {% if session.XXXX['present-at-death'] == "no" %}checked="checked"{% endif %}>
+            {% if details['present-at-death'] == "no" %}checked="checked"{% endif %}>
           <label for="present-no">No</label>
         </div>
       </fieldset>
@@ -63,12 +63,12 @@
         </legend>
         <div class="multiple-choice">
           <input id="informant-yes" type="radio" name="informant" value="yes"
-            {% if session.XXXX['informant'] == "yes" %}checked="checked"{% endif %}>
+            {% if details['informant'] == "yes" %}checked="checked"{% endif %}>
           <label for="informant-yes">Yes</label>
         </div>
         <div class="multiple-choice">
           <input id="informant-no" type="radio" name="informant" value="no"
-            {% if session.XXXX['informant'] == "no" %}checked="checked"{% endif %}>
+            {% if details['informant'] == "no" %}checked="checked"{% endif %}>
           <label for="informant-no">No</label>
         </div>
       </fieldset>
