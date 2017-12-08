@@ -60,36 +60,49 @@
     <h2 class="bold-large shunt-medium">Contact details</h2>
 
     <div class="form-group">
-      <label class="form-label-bold" for="tel-primary">Primary contact telephone</label>
+      <label class="form-label-bold" for="tel-primary">Contact telephone 1</label>
       <span class="form-hint">For example a mobile number</span>
       <input type="text" class="form-control" id="tel-primary" name="tel-primary"
         value="{{ details['methods'][0]['value'] }}">
-      <input type="radio" class="form-control" id="primary-channel-1" name="primary-channel" value="tel-primary"
-        {{ 'checked="checked"' | safe if details['primary-channel'] === 'tel-primary' }}>
+      <div class="multiple-choice">
+        <input type="radio" class="form-control" id="primary-channel-1" name="primary-channel" value="tel-primary"
+          {{ 'checked="checked"' | safe if details['primary-channel'] === 'tel-primary' }}>
+        <label for="primary-channel-1">Primary contact channel</label>
+      </div>
     </div>
 
     <div class="form-group">
-      <label class="form-label-bold" for="tel-secondary">Secondary contact telephone</label>
+      <label class="form-label-bold" for="tel-secondary">Contact telephone 2</label>
+      <span class="form-hint">For example a work landline</span>
       <input type="text" class="form-control" id="tel-secondary" name="tel-secondary"
         value="{{ details['methods'][1]['value'] }}">
-      <input type="radio" class="form-control" id="primary-channel-2" name="primary-channel" value="tel-secondary"
-        {{ 'checked="checked"' | safe if details['primary-channel'] === 'tel-secondary' }}>
+      <div class="multiple-choice">
+        <input type="radio" class="form-control" id="primary-channel-2" name="primary-channel" value="tel-secondary"
+          {{ 'checked="checked"' | safe if details['primary-channel'] === 'tel-secondary' }}>
+        <label for="primary-channel-2">Primary contact channel</label>
+      </div>
     </div>
 
     <div class="form-group">
       <label class="form-label-bold" for="tel-pager">Pager</label>
       <input type="text" class="form-control" id="tel-pager" name="tel-pager"
         value="{{ details['methods'][2]['value'] }}">
-      <input type="radio" class="form-control" id="primary-channel-3" name="primary-channel" value="tel-pager"
-        {{ 'checked="checked"' | safe if details['primary-channel'] === 'tel-pager' }}>
+      <div class="multiple-choice">
+        <input type="radio" class="form-control" id="primary-channel-3" name="primary-channel" value="tel-pager"
+          {{ 'checked="checked"' | safe if details['primary-channel'] === 'tel-pager' }}>
+        <label for="primary-channel-3">Primary contact channel</label>
+      </div>
     </div>
 
     <div class="form-group">
       <label class="form-label-bold" for="email">Email</label>
       <input type="text" class="form-control" id="email" name="email"
         value="{{ details['methods'][3]['value'] }}">
-      <input type="radio" class="form-control" id="primary-channel-4" name="primary-channel" value="email"
-        {{ 'checked="checked"' | safe if details['primary-channel'] === 'email' }}>
+      <div class="multiple-choice">
+        <input type="radio" class="form-control" id="primary-channel-4" name="primary-channel" value="email"
+          {{ 'checked="checked"' | safe if details['primary-channel'] === 'email' }}>
+        <label for="primary-channel-4">Primary contact channel</label>
+      </div>
     </div>
 
     <fieldset>
