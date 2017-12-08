@@ -142,7 +142,12 @@
 
     <button class="button" type="submit">Save contact details</button>
     <p>
-      <a href="/add-contact" class="link-back">Cancel and go back</a>
+      {% if edit %}
+        {% set url = '/details-contact-examination/' + details['url-name'] %}
+      {% else %}
+        {% set url = '/add-contact' %}
+      {% endif %}
+      <a href="{{ url }}" class="link-back">Cancel and go back</a>
     </p>
 
   </form>
