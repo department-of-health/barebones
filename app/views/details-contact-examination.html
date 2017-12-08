@@ -68,7 +68,7 @@
   <div class="section bordered">
     <h2 class="font-xxsmall">Notes</h2>
     {% if details['notes'] !== '' %}
-      {{ details['notes'] }}
+      {{ details['notes'] | striptags(true) | escape | nl2br }}
     {% else %}
       <p class="not-set">No notes</p>
     {% endif %}
