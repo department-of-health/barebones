@@ -57,21 +57,21 @@
   <div class="grid">
 
     <div class="panel-3-up">
-      <h3 class="shunt-small">
+      <h3 class="font-small shunt-small">
         {% if session.deceased %}
           {% set url = '/details-deceased' %}
         {% else %}
           {% set url = '/edit-deceased' %}
         {% endif %}
-        <a href="{{ url }}" class="font-small">
-          Deceased
+          <a href="{{ url }}">Deceased</a>
           {% if session.deceased %}
             <div class="bold-medium">
               {% if session.deceased['name'] %}
-                {{ session.deceased['name'] }}
+                <a href="{{ url }}">{{ session.deceased['name'] }}</a>
               {% else %}
                 <span class="not-set">Name not yet added</span>
               {% endif %}
+              </a>
             </div>
           {% endif %}
         </a>
@@ -120,21 +120,18 @@
     </div>
 
     <div class="panel-3-up">
-      <h3 class="shunt-small">
-        <a href="#" class="font-small">Events</a>
-      </h3>
+      <h3 class="font-small shunt-small">Events</a></h3>
       No events yet.
       <a href="#">Add event</a>
     </div>
 
     <div class="panel-3-up">
-      <h3 class="shunt-small">
+      <h3 class="font-small shunt-small">
         {% if session.contacts.length > 0 %}
-          {% set url = '/contacts' %}
+          Contacts
         {% else %}
-          {% set url = '/add-contact' %}
+          <a href="/add-contact">Contacts</a>
         {% endif %}
-        <a href="{{ url }}" class="font-small">Contacts</a>
       </h3>
       {% if session.contacts.length > 0 %}
         {% for contact in session.contacts %}
@@ -153,29 +150,17 @@
               {% endfor %}
             </div>
             <div class="shunt-tiny">
-              <a href="/details-contact-examination/{{ contact['url-name'] }}">Full contact details</a>
+              <a href="/details-contact-examination/{{ contact['url-name'] }}">Full details</a>
             </div>
           </div>
         {% endfor %}
+        <div>
+          <p><a href="/add-contact">Add a new contact</a></p>
+        </div>
       {% else %}
         No contacts assigned yet.
-        <a href="/add-contact">Add contacts</a>
+        <a href="/add-contact">Add contact</a>
       {% endif %}
-      <!--
-      <div class="shunt-medium">
-        <h5 class="shunt-tiny">
-          Informant<br>
-          <div class="bold-medium">Charles McNulty</div>
-        </h5>
-        Best contact: informant@personalemail.co.uk
-        <div class="shunt-tiny">
-          <a href="#">Full contact details</a>
-        </div>
-      </div>
-      <div class="shunt-medium">
-        <a href="#">James McNulty, son</a>
-      </div>
-      -->
     </div>
 
   </div>
