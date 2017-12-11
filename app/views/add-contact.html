@@ -5,10 +5,7 @@
     <div class="breadcrumb">
       <ul>
         <li><a href="/cases">Cases</a></li>
-        <li><a href="/case-overview">{{ session.caseRef }}</a></li>
-        {% if session.contacts.length > 0 %}
-          <li><a href="/contacts">Contacts</a></li>
-        {% endif %}
+        <li><a href="/case-overview">{{ session.caseRef }} overview</a></li>
         <li>Add contact</li>
       </ul>
     </div>
