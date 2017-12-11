@@ -10,7 +10,27 @@ var utils = require('./lib/utils.js')
 
 var app = express()
 
-//moment().format()
+// Grab environment variables specified in Procfile or as Heroku config vars
+var username = process.env.USERNAME
+var password = process.env.PASSWORD
+var appEnvironment = process.env.NODE_ENV || 'development'
+var useAuth = process.env.USE_AUTH || config.useAuth
+var useHttps = process.env.USE_HTTPS || config.useHttps
+
+appEnvironment = appEnvironment.toLowerCase()
+useAuth = useAuth.toLowerCase()
+useHttps = useHttps.toLowerCase()
+
+// Force HTTPs on production connections
+if (appEnvironment === 'production' && useHttps === 'true') {
+  app.use(utils.forceHttps)
+}
+
+// Authenticate against the environment-provided credentials, if running
+// the app in production (Heroku, effectively)
+if (appEnvironment === 'production' && useAuth === 'true') {
+  app.use(utils.basicAuth(username, password))
+}
 
 // Application settings
 app.set('view engine', 'html')
@@ -22,8 +42,18 @@ var env = nunjucks.configure('./app/views', {
 })
 env.addFilter('date', dateFilter)
 
-// Middleware to serve static assets
-app.use('/', express.static(path.join(__dirname, '/public')))
+// Support session data
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: Math.round(Math.random() * 100000).toString()
+}))
+
+var myLogger = function (req, res, next) {
+  console.log(req.session);
+  next()
+}
+app.use(myLogger)
 
 // Disallow search index
 app.use(function (req, res, next) {
@@ -32,13 +62,6 @@ app.use(function (req, res, next) {
   next()
 })
 
-// Support session data
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-  secret: Math.round(Math.random() * 100000).toString()
-}))
-
 // Add variables that are available in all views
 app.use(function (req, res, next) {
   res.locals.serviceName = config.serviceName
@@ -46,17 +69,14 @@ app.use(function (req, res, next) {
   next()
 })
 
-var myLogger = function (req, res, next) {
-  console.log(req.session);
-  next()
-}
-app.use(myLogger)
-
 // Handle form POSTS
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }))
+
+// Middleware to serve static assets
+app.use('/', express.static(path.join(__dirname, '/public')))
 
 app.get('/', function(req, res) {
   req.session.destroy()
