@@ -27,38 +27,37 @@
 
   <div class="form-group">
     <label class="form-label-bold" for="cause-1-a">1a: Disease or condition leading directly to death</label>
-    <input type="text" class="form-control" id="cause-1-a" name="cause-1-a" value="">
+    <input type="text" class="form-control" id="cause-1-a" name="cause-1-a"
+      value="{{ session['cause']['cause-1-a'] }}">
   </div>
 
   <div class="form-group">
     <label class="form-label-bold" for="cause-1-b">1b: Other disease or condition leading to <b>1a</b></label>
-    <input type="text" class="form-control" id="cause-1-b" name="cause-1-b" value="">
+    <input type="text" class="form-control" id="cause-1-b" name="cause-1-b"
+      value="{{ session['cause']['cause-1-b'] }}">
   </div>
 
   <div class="form-group">
     <label class="form-label-bold" for="cause-1-c">1c: Other disease or condition leading to <b>1b</b></label>
-    <input type="text" class="form-control" id="cause-1-c" name="cause-1-c" value="">
+    <input type="text" class="form-control" id="cause-1-c" name="cause-1-c"
+      value="{{ session['cause']['cause-1-c'] }}">
   </div>
 
   <div class="form-group">
     <label class="form-label-bold" for="cause-1-d">1d: Other disease or condition leading to <b>1c</b></label>
-    <input type="text" class="form-control" id="cause-1-d" name="cause-1-d" value="">
+    <input type="text" class="form-control" id="cause-1-d" name="cause-1-d"
+      value="{{ session['cause']['cause-1-d'] }}">
   </div>
 
   <div class="form-group">
     <label class="form-label-bold" for="contributory-2">2: Other significant conditions contributing to the death</label>
-    <input type="text" class="form-control" id="contributory-2" name="contributory-2" value="">
+    <input type="text" class="form-control" id="contributory-2" name="contributory-2"
+      value="{{ session['cause']['contributory-2'] }}">
   </div>
 
   <button class="button" type="submit">Save cause of death</button>
-
-  {% if session.deceased %}
-    {% set url = '/details-deceased' %}
-  {% else %}
-    {% set url = '/case-overview' %}
-  {% endif %}
   <p>
-    <a href="{{ url }}">Cancel and go back</a>
+    <a href="/case-overview" class="link-back">Cancel and go back</a>
   </p>
 
 </form>

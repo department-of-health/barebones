@@ -148,7 +148,7 @@ app.post('/edit-deceased', function(req, res) {
 app.post('/edit-cause-of-death', function(req, res) {
   req.session.modificationTimestamp = new moment() // POST indicates modifcation (a bit weak but prototype)
   req.session.cause = req.body
-  res.redirect('/details-deceased');
+  res.redirect('/case-overview');
 })
 
 // a post with NO slug is a new contact
