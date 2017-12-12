@@ -1,0 +1,78 @@
+{% extends '_layouts/admin.html' %}
+
+{% block header_before %}
+<a href="#" id="fill-details" tabindex="-1" style="position: absolute; right: 0; top: 0; color: #00ad93;">
+  Fill in form
+</a>
+{% endblock %}
+
+
+{% block content %}
+<div class="section">
+  <div class="breadcrumb">
+    <ul>
+      <li><a href="/cases">Cases</a></li>
+      <li><a href="/case-overview">{{ session.caseRef }} overview</a></li>
+      {% if session.deceased %}
+        <li><a href="/details-deceased">Deceased</a></li>
+      {% endif %}
+      <li>Cause of death</li>
+    </ul>
+  </div>
+</div>
+
+<form method="post" class="section text">
+
+  <h1 class="bold-large shunt-medium">Cause of death</h1>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="cause-1-a">1a: Disease or condition leading directly to death</label>
+    <input type="text" class="form-control" id="cause-1-a" name="cause-1-a"
+      value="{{ session['cause']['cause-1-a'] }}">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="cause-1-b">1b: Other disease or condition leading to <b>1a</b></label>
+    <input type="text" class="form-control" id="cause-1-b" name="cause-1-b"
+      value="{{ session['cause']['cause-1-b'] }}">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="cause-1-c">1c: Other disease or condition leading to <b>1b</b></label>
+    <input type="text" class="form-control" id="cause-1-c" name="cause-1-c"
+      value="{{ session['cause']['cause-1-c'] }}">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="cause-1-d">1d: Other disease or condition leading to <b>1c</b></label>
+    <input type="text" class="form-control" id="cause-1-d" name="cause-1-d"
+      value="{{ session['cause']['cause-1-d'] }}">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="contributory-2">2: Other significant conditions contributing to the death</label>
+    <input type="text" class="form-control" id="contributory-2" name="contributory-2"
+      value="{{ session['cause']['contributory-2'] }}">
+  </div>
+
+  <button class="button" type="submit">Save cause of death</button>
+  <p>
+    <a href="/case-overview" class="link-back">Cancel and go back</a>
+  </p>
+
+</form>
+{% endblock %}
+
+
+{% block body_after %}
+<script type="text/javascript">
+  $(function() {
+    $('#fill-details').on('click', function(e) {
+      e.preventDefault();
+      $('#cause-1-a').val('Cardiorespiratory failure');
+      $('#cause-1-b').val('Ischaemic heart disease and chronic obstructive airways disease');
+      $('#contributory-2').val('Osteoarthritis');
+    })
+  });
+</script>
+{% endblock %}
