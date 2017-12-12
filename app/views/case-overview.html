@@ -56,7 +56,7 @@
 
   <div class="grid">
 
-    <div class="panel-3-up">
+    <div class="shunt-small panel-3-up">
       <h3 class="font-small shunt-small">
         {% if session.deceased %}
           {% set url = '/details-deceased' %}
@@ -77,9 +77,9 @@
         </a>
       </h3>
       {% if session.deceased %}
-        <table>
+        <table class="shunt-small">
           <tr>
-            <th scope="row">Died:</th>
+            <th scope="row">Died</th>
             <td>
               {% if session.deceased['deathTimestamp'] %}
                 {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }} at {{ session.deceased['deathTimestamp'] | date("HH[:]mm") }}
@@ -89,7 +89,7 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Age:</th>
+            <th scope="row">Age</th>
             <td>
               {% if session.deceased['age'] %}
                 {{ session.deceased['age'] }}
@@ -99,7 +99,7 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">Type:</th>
+            <th scope="row">Type</th>
             <td>
               {% if session.deceased['type-group'] %}
                 {{ session.deceased['type-group'] | capitalize }}
@@ -108,24 +108,36 @@
               {% endif %}
             </td>
           </tr>
-          <tr>
-            <th scope="row">Cause:</th>
-            <td><a href="javascript:alert('Sorry! Not yet implemented in prototype')">cause not added</a></td>
-          </tr>
         </table>
+        <p><a href="/details-deceased" class="font-xxsmall">Full details</a></p>
       {% else %}
-        No details yet.
-        <a href="/edit-deceased">Add details</a>
+        <p class="shunt-medium">
+          No details yet.
+          <a href="/edit-deceased">Add details</a>
+        </p>
       {% endif %}
+        <h4 class="font-small shunt-small">
+          <a href="/edit-cause-of-death">Cause of death</a>
+        </h4>
+        {% if session.cause %}
+
+          {% include '_includes/cause-of-death.html' %}
+
+          <p>
+            <a href="/edit-cause-of-death" class="font-xxsmall">Edit cause of death</a>
+          </p>
+        {% else %}
+          <a href="/edit-cause-of-death">Cause of death not yet added</a>
+        {% endif %}
     </div>
 
-    <div class="panel-3-up">
+    <div class="shunt-small panel-3-up">
       <h3 class="font-small shunt-small">Events</a></h3>
       No events yet.
       <a href="javascript:alert('Sorry! Not yet implemented in prototype')">Add event</a>
     </div>
 
-    <div class="panel-3-up">
+    <div class="shunt-small panel-3-up">
       <h3 class="font-small shunt-small">
         {% if session.contacts > 0 %}
           Contacts
@@ -151,7 +163,7 @@
               {% endfor %}
             </div>
             <div class="shunt-tiny">
-              <a href="/details-contact-examination/{{ contact['url-name'] }}">Full details</a>
+              <a href="/details-contact-examination/{{ contact['url-name'] }}" class="font-xxsmall">Full details</a>
             </div>
           </div>
         {% endfor %}
@@ -160,10 +172,10 @@
       {% if session['contacts-deceased'].length > 0 %}
         {% for contact in session['contacts-deceased'] %}
           <div class="shunt-medium">
-            {% if contact['informant'] === 'yes' %}
-              <div class="flag bold-xxsmall">Informant</div>
-            {% endif %}
             <h5 class="font-xxsmall shunt-tiny">
+              {% if contact['informant'] === 'yes' %}
+                <div class="flag-informant">Informant</div>
+              {% endif %}
               {{ contact['relationship'] | capitalize }}<br>
               <div class="bold-medium">
                 <a href="/details-contact-deceased/{{ contact['url-name'] }}">{{ contact['name'] }}</a>
@@ -177,7 +189,7 @@
               {% endfor %}
             </div>
             <div class="shunt-tiny">
-              <a href="/details-contact-deceased/{{ contact['url-name'] }}">Full details</a>
+              <a href="/details-contact-deceased/{{ contact['url-name'] }}" class="font-xxsmall">Full details</a>
             </div>
           </div>
         {% endfor %}
@@ -192,6 +204,6 @@
         </div>
       {% endif %}
     </div>
-
   </div>
+
 {% endblock %}
