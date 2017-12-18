@@ -3,16 +3,17 @@
   ol {
     list-style: none;
     padding-left: 0;
+    margin: 0;
   }
 
   li {
     position: relative;
     padding-left: 2em;
+    min-height: 1em;
   }
 
   .item {
     position: absolute;
     left: 0;
-    color: $secondary-text-colour;
   }
 }
