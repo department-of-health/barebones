@@ -2,9 +2,8 @@
   color: $green;
   font-weight: 700;
 }
-.case-status {
 
-  @extend .font-xxsmall;
+.case-status {
 
   ul {
     position: relative;
@@ -12,28 +11,35 @@
     margin: 0;
     padding: 0;
 
-    @extend %contain-floats;
-
     li {
-      float: left;
-      display: block;
-      width: $gutter;
-      height: $gutter-small;
-      background-color: $grey-3;
-      margin-right: $gutter-nano;
+      position: relative;
+      margin: 0 0 1em 0;
+      padding: .1em 0 .25em 2em;
 
-      &:hover > span {
-        visibility: visible;
+      &:before {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        background-color: $grey-3;
       }
     }
 
-    span {
-      visibility: hidden;
-      position: absolute;
-      left: 0;
-      bottom: -$gutter-small;
-      display: block;
-      white-space: nowrap;
+    .nil {
+      &:link {
+        color: $grey-1;
+      }
+      &:visited {
+        color: $grey-1;
+      }
+      &:hover,
+      &:focus {
+        color: $black;
+      }
     }
   }
 }
