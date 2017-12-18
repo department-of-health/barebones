@@ -37,20 +37,14 @@
 
     <div class="shunt-small panel-3-up">
       <h3 class="font-small shunt-small">
-        {% if session.deceased %}
-          {% set url = '/details-deceased' %}
-        {% else %}
-          {% set url = '/edit-deceased' %}
-        {% endif %}
-          <a href="{{ url }}">Deceased</a>
+          Deceased
           {% if session.deceased %}
             <div class="bold-medium">
               {% if session.deceased['name'] %}
-                <a href="{{ url }}">{{ session.deceased['name'] }}</a>
+                <a href="/details-deceased">{{ session.deceased['name'] }}</a>
               {% else %}
-                <span class="not-set">Name not yet added</span>
+                <a href="/details-deceased">Name not yet added</a>
               {% endif %}
-              </a>
             </div>
           {% endif %}
         </a>
@@ -95,18 +89,17 @@
           <a href="/edit-deceased">Add details</a>
         </p>
       {% endif %}
-        <h4 class="font-small shunt-small">
-          <a href="/edit-cause-of-death">Cause of death</a>
-        </h4>
+        <h4 class="font-small shunt-small">Cause of death</h4>
         {% if session.cause %}
-
-          {% include '_includes/cause-of-death.html' %}
-
+          <div class="font-xxsmall">
+            {% include '_includes/cause-of-death.html' %}
+          </div>
           <p>
             <a href="/edit-cause-of-death" class="font-xxsmall">Edit cause of death</a>
           </p>
         {% else %}
-          <a href="/edit-cause-of-death">Cause of death not yet added</a>
+          No details yet.
+          <a href="/edit-cause-of-death">Add details</a>
         {% endif %}
     </div>
 
@@ -119,13 +112,7 @@
     </div>
 
     <div class="shunt-small panel-3-up">
-      <h3 class="font-small shunt-small">
-        {% if session.contacts > 0 %}
-          Contacts
-        {% else %}
-          <a href="/add-contact">Contacts</a>
-        {% endif %}
-      </h3>
+      <h3 class="font-small shunt-small">Contacts</h3>
       {# Do 'examining' contacts first #}
       {% if session['contacts-examination'].length > 0 %}
         {% for contact in session['contacts-examination'] %}
