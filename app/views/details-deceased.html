@@ -79,9 +79,9 @@
         {% endif %}
       </div>
       <div class="shunt-tiny">
-        <div class="font-xxsmall">Gender</div>
+        <div class="font-xxsmall">Sex</div>
         <span>
-          {% if session.deceased['nhs-number'] %}
+          {% if session.deceased['sex'] %}
             {{ session.deceased['sex'] | capitalize }}
           {% else %}
             <span class="not-set">Not yet added</span>
