@@ -18,34 +18,13 @@
   </div>
 
   <div class="section floats bordered">
-    <div class="case-status shunt-small">
-      <h2 class="font-xsmall shunt-tiny">Status:
-        {% set status = 'new' %}
-        <span class="status-{{ status }}">{{ session.caseStatus }}</span>
-      </h2>
-      <ul>
-        <li>
-          <span>ME scrutiny</span>
-        </li>
-        <li>
-          <span>External examination</span>
-        </li>
-        <li>
-          <span>QAP and ME discussion</span>
-        </li>
-        <li>
-          <span>ME signed off cause of death</span>
-        </li>
-        <li>
-          <span>Discussion with informant</span>
-        </li>
-        <li>
-          <span>Informant assent</span>
-        </li>
-      </ul>
+    <div class="shunt-tiny">
+      <div class="font-xxsmall shunt-tiny">Status</div>
+      {% set status = 'new' %}
+      <span class="status-{{ status }}">{{ session.caseStatus | capitalize }}</span>
     </div>
     <div class="shunt-tiny">
-      <div class="font-xxsmall shunt-tiny">Edited</div>
+      <div class="font-xxsmall shunt-tiny">Last edit</div>
       {{ session.modificationTimestamp | date('D MMMM YYYY [ at ] HH:mm') }}
     </div>
     <div class="shunt-tiny">
@@ -133,8 +112,10 @@
 
     <div class="shunt-small panel-3-up">
       <h3 class="font-small shunt-small">Events</a></h3>
-      No events yet.
-      <a href="javascript:alert('Sorry! Not yet implemented in prototype')">Add event</a>
+      {% include '_includes/case-status-tree.html' %}
+      <p>
+        <a href="javascript:alert('Sorry! Not yet implemented in prototype')">Add another event</a>
+      </p>
     </div>
 
     <div class="shunt-small panel-3-up">
