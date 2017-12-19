@@ -13,7 +13,7 @@
 
   <div class="section floats section-tinted">
     <div class="shunt-tiny">
-      <h1>
+      <h1 class="bold-large">
         <div class="font-small">Deceased</div>
         {% if session.deceased['name'] %}
           {{ session.deceased['name'] }}
@@ -24,7 +24,7 @@
     </div>
     <div class="shunt-tiny">
       Died
-      <div class="bold-small">
+      <div class="font-small">
         {% if session.deceased['deathTimestamp'] %}
           {% if session.deceased['deathTimestamp'] %}
             {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }}
@@ -39,7 +39,7 @@
     </div>
     <div class="shunt-tiny">
       Aged
-      <div class="bold-small">
+      <div class="font-small">
         {% if session.deceased['age'] %}
           {{ session.deceased['age'] }}
         {% else %}
@@ -49,7 +49,7 @@
     </div>
     <div class="shunt-tiny">
       Type of death
-      <div class="bold-small">
+      <div class="font-small">
         {% if session.deceased['type-group'] %}
           {{ session.deceased['type-group'] | capitalize }}
         {% else %}
