@@ -10,26 +10,31 @@
     </div>
   </div>
 
-  <div class="section">
-    <h1 class="bold-large">
-      {{ session.caseRef }}
-      <a href="/rename-case" class="font-xxsmall">Rename</a>
-    </h1>
-  </div>
-
-  <div class="section floats bordered">
-    <div class="shunt-tiny">
-      <div class="font-xxsmall shunt-tiny">Status</div>
-      {% set status = 'new' %}
-      <span class="status-{{ status }}">{{ session.caseStatus | capitalize }}</span>
-    </div>
-    <div class="shunt-tiny">
-      <div class="font-xxsmall shunt-tiny">Last edit</div>
-      {{ session.modificationTimestamp | date('D MMMM YYYY [ at ] HH:mm') }}
-    </div>
-    <div class="shunt-tiny">
-      <div class="font-xxsmall shunt-tiny">Created</div>
-      {{ session.caseCreated | date('D MMMM YYYY [ at ] HH:mm') }}
+  <div class="section-tinted">
+    <div class="grid">
+      <div class="panel-3-up">
+        <h1 class="bold-large">
+          {{ session.caseRef }}
+          <a href="/rename-case" class="font-xxsmall">Rename</a>
+        </h1>
+      </div>
+      <div class="panel-3-up panel-3-up-span-2">
+        <div class="floats">
+          <div class="shunt-tiny">
+            <div class="font-xxsmall shunt-tiny">Status</div>
+            {% set status = 'new' %}
+            <span class="status-{{ status }}">{{ session.caseStatus | capitalize }}</span>
+          </div>
+          <div class="shunt-tiny">
+            <div class="font-xxsmall shunt-tiny">Last edit</div>
+            {{ session.modificationTimestamp | date('D MMMM YYYY [ at ] HH:mm') }}
+          </div>
+          <div class="shunt-tiny">
+            <div class="font-xxsmall shunt-tiny">Created</div>
+            {{ session.caseCreated | date('D MMMM YYYY [ at ] HH:mm') }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -37,95 +42,65 @@
 
     <div class="shunt-small panel-3-up">
       <h3 class="font-small shunt-small">
-        {% if session.deceased %}
-          {% set url = '/details-deceased' %}
-        {% else %}
-          {% set url = '/edit-deceased' %}
-        {% endif %}
-          <a href="{{ url }}">Deceased</a>
+          Deceased
           {% if session.deceased %}
             <div class="bold-medium">
               {% if session.deceased['name'] %}
-                <a href="{{ url }}">{{ session.deceased['name'] }}</a>
+                <a href="/details-deceased">{{ session.deceased['name'] }}</a>
               {% else %}
-                <span class="not-set">Name not yet added</span>
+                <a href="/details-deceased">Name not yet added</a>
               {% endif %}
-              </a>
             </div>
           {% endif %}
         </a>
       </h3>
       {% if session.deceased %}
-        <table class="shunt-small">
-          <tr>
-            <th scope="row">Died</th>
-            <td>
-              {% if session.deceased['deathTimestamp'] %}
-                {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }} at {{ session.deceased['deathTimestamp'] | date("HH[:]mm") }}
-              {% else %}
-                <span class="not-set">Not yet added</span>
-              {% endif %}
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Age</th>
-            <td>
-              {% if session.deceased['age'] %}
-                {{ session.deceased['age'] }}
-              {% else %}
-                <span class="not-set">Not yet added</span>
-              {% endif %}
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Type</th>
-            <td>
-              {% if session.deceased['type-group'] %}
-                {{ session.deceased['type-group'] | capitalize }}
-              {% else %}
-                <span class="not-set">Not yet added</span>
-              {% endif %}
-            </td>
-          </tr>
-        </table>
-        <p><a href="/details-deceased" class="font-xxsmall">Full details</a></p>
+        <div class="shunt-small">
+          <div class="font-xxsmall">Died</div>
+          {% if session.deceased['deathTimestamp'] %}
+            {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }} at {{ session.deceased['deathTimestamp'] | date("HH[:]mm") }}
+          {% else %}
+            <span class="not-set">Not yet added</span>
+          {% endif %}
+        </div>
+
+        <div class="shunt-small">
+          <div class="font-xxsmall">Age</div>
+          {% if session.deceased['age'] %}
+            {{ session.deceased['age'] }}
+          {% else %}
+            <span class="not-set">Not yet added</span>
+          {% endif %}
+        </div>
+
+        <div class="shunt-medium">
+          <div class="font-xxsmall">Type of death</div>
+          {% if session.deceased['type-group'] %}
+            {{ session.deceased['type-group'] | capitalize }}
+          {% else %}
+            <span class="not-set">Not yet added</span>
+          {% endif %}
+        </div>
       {% else %}
         <p class="shunt-medium">
           No details yet.
           <a href="/edit-deceased">Add details</a>
         </p>
       {% endif %}
-        <h4 class="font-small shunt-small">
-          <a href="/edit-cause-of-death">Cause of death</a>
-        </h4>
-        {% if session.cause %}
-
+      <h4 class="font-small shunt-small">Cause of death</h4>
+      {% if session.cause %}
+        <div class="shunt-small">
           {% include '_includes/cause-of-death.html' %}
-
-          <p>
-            <a href="/edit-cause-of-death" class="font-xxsmall">Edit cause of death</a>
-          </p>
-        {% else %}
-          <a href="/edit-cause-of-death">Cause of death not yet added</a>
-        {% endif %}
+        </div>
+        <a href="/edit-cause-of-death">Edit cause of death</a>
+      {% else %}
+        No details yet.
+        <a href="/edit-cause-of-death">Add details</a>
+      {% endif %}
     </div>
 
     <div class="shunt-small panel-3-up">
-      <h3 class="font-small shunt-small">Events</a></h3>
-      {% include '_includes/case-status-tree.html' %}
-      <p>
-        <a href="javascript:alert('Sorry! Not yet implemented in prototype')">Add another event</a>
-      </p>
-    </div>
-
-    <div class="shunt-small panel-3-up">
-      <h3 class="font-small shunt-small">
-        {% if session.contacts > 0 %}
-          Contacts
-        {% else %}
-          <a href="/add-contact">Contacts</a>
-        {% endif %}
-      </h3>
+      <h3 class="font-small shunt-small">Contacts</h3>
       {# Do 'examining' contacts first #}
       {% if session['contacts-examination'].length > 0 %}
         {% for contact in session['contacts-examination'] %}
@@ -143,9 +118,6 @@
                 {% endif %}
               {% endfor %}
             </div>
-            <div class="shunt-tiny">
-              <a href="/details-contact-examination/{{ contact['url-name'] }}" class="font-xxsmall">Full details</a>
-            </div>
           </div>
         {% endfor %}
       {% endif %}
@@ -155,7 +127,7 @@
           <div class="shunt-medium">
             <h5 class="font-xxsmall shunt-tiny">
               {% if contact['informant'] === 'yes' %}
-                <div class="flag-informant">Informant</div>
+                <span class="flag-informant">Informant</span>
               {% endif %}
               {{ contact['relationship'] | capitalize }}<br>
               <div class="bold-medium">
@@ -169,9 +141,6 @@
                 {% endif %}
               {% endfor %}
             </div>
-            <div class="shunt-tiny">
-              <a href="/details-contact-deceased/{{ contact['url-name'] }}" class="font-xxsmall">Full details</a>
-            </div>
           </div>
         {% endfor %}
       {% endif %}
@@ -184,6 +153,14 @@
           <p><a href="/add-contact">Add a new contact</a></p>
         </div>
       {% endif %}
+    </div>
+
+    <div class="shunt-small panel-3-up">
+      <h3 class="font-small shunt-small">Events</a></h3>
+      {% include '_includes/case-status-tree.html' %}
+      <p>
+        <a href="javascript:alert('Sorry! Not yet implemented in prototype')">Add another event</a>
+      </p>
     </div>
   </div>
 

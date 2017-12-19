@@ -96,7 +96,7 @@ fieldset > .form-group {
 .form-label-bold {
   display: block;
   color: $text-colour;
-  padding-bottom: $gutter-tiny;
+  padding-bottom: .5em;
 }
 
 .form-label-bold {
@@ -126,8 +126,8 @@ fieldset > .form-group {
   color: $secondary-text-colour;
   font-weight: normal;
 
-  margin-top: -$gutter-tiny;
-  margin-bottom: $gutter-tiny;
+  margin-top: -.5em;
+  margin-bottom: .5em;
 }
 
 .form-label .form-hint,
@@ -146,8 +146,8 @@ fieldset > .form-group {
   @include core-16;
   width: 100%;
 
-  margin-bottom: $gutter-tiny;
-  padding: $gutter-tiny;
+  margin-bottom: .5em;
+  padding: .5em;
   // setting any background-color makes text invisible when changing colours to dark backgrounds in Firefox (https://bugzilla.mozilla.org/show_bug.cgi?id=1335476)
   // as background-color and color need to always be set together, color should not be set either
   border: $gutter-nano solid $text-colour;

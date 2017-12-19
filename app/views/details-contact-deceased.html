@@ -11,45 +11,36 @@
     </div>
   </div>
 
-  <div class="section">
-    {% if details['informant'] === 'yes' %}
-      <div class="flag-informant bold-xxsmall">Informant</div>
-    {% endif %}
-    <h1>
-      {% if details['name'] %}
-        {{ details['name'] }}
-      {% else %}
-        <span class="not-set">Name not yet added</span>
+  <div class="section floats section-tinted">
+    <div class="shunt-small">
+      {% if details['informant'] === 'yes' %}
+        <span class="flag-informant font-xxsmall">Informant</span>
       {% endif %}
-    </h1>
-  </div>
-
-  <div class="section floats">
-    <div class="bold-small shunt-tiny">
-      <div class="font-xsmall">Relationship to the deceased</div>
-      {{ details['relationship'] | capitalize }}
+      <span class="font-xxsmall">{{ details['relationship'] | capitalize }}</span>
+      <h1 class="bold-large">
+        {% if details['name'] %}
+          {{ details['name'] }}
+        {% else %}
+          <span class="not-set">Name not yet added</span>
+        {% endif %}
+      </h1>
     </div>
-    <div class="bold-small shunt-tiny">
-      <div class="font-xsmall">Was present at the death?</div>
-      {{ details['present-at-death'] | capitalize }}
+    <div class="shunt-small">
+      <h2 class="font-xxsmall">Primary contact</h2>
+      {% for item in details['methods'] %}
+        {% if item['name'] == details['primary-channel'] %}
+          <b class="font-large">{{ item['value'] }}</b>
+        {% endif %}
+      {% endfor %}
     </div>
-  </div>
-
-  <div class="section bordered">
-    <h2 class="font-xxsmall">Primary contact method</h2>
-    {% for item in details['methods'] %}
-      {% if item['name'] == details['primary-channel'] %}
-        {{ item['title'] | capitalize }}: <b>{{ item['value'] }}</b>
-      {% endif %}
-    {% endfor %}
   </div>
 
   <div class="section bordered">
     <h4 class="font-small shunt-small">Other contact details</h4>
-    <div class="floats">
-      {% for item in details['methods'] %}
+    {% for item in details['methods'] %}
+      {% if item['name'] != details['primary-channel'] %}
         {% if item['value'] %}
-          <div>
+          <div class="shunt-small">
             <div class="font-xxsmall">{{ item['title'] | capitalize }}</div>
             {% if item['name'] == 'address' %}
               {% for line in item['value'] %}
@@ -62,17 +53,23 @@
             {% endif %}
           </div>
         {% endif %}
-      {% endfor %}
-    </div>
+      {% endif %}
+    {% endfor %}
   </div>
 
   <div class="section bordered">
-    <h2 class="font-xxsmall">Notes</h2>
-    {% if details['notes'] !== '' %}
-      {{ details['notes'] | striptags(true) | escape | nl2br }}
-    {% else %}
-      <p class="not-set">No notes</p>
-    {% endif %}
+    <div class="shunt-small">
+      <h2 class="font-xxsmall">Present at death</h2>
+      {{ details['present-at-death'] | capitalize }}
+    </div>
+    <div class="shunt-small">
+      <h2 class="font-xxsmall">Notes</h2>
+      {% if details['notes'] !== '' %}
+        {{ details['notes'] | striptags(true) | escape | nl2br }}
+      {% else %}
+        <div class="not-set">No notes</div>
+      {% endif %}
+    </div>
   </div>
 
   <div class="section">

@@ -11,21 +11,20 @@
     </div>
   </div>
 
-  <div class="section">
-    <h1>
-      <div class="font-small">Deceased</div>
-      {% if session.deceased['name'] %}
-        {{ session.deceased['name'] }}
-      {% else %}
-        <span class="not-set">Name not yet added</span>
-      {% endif %}
-    </h1>
-  </div>
-
-  <div class="section floats">
+  <div class="section floats section-tinted">
+    <div class="shunt-tiny">
+      <h1 class="bold-large">
+        <div class="font-small">Deceased</div>
+        {% if session.deceased['name'] %}
+          {{ session.deceased['name'] }}
+        {% else %}
+          <span class="not-set">Name not yet added</span>
+        {% endif %}
+      </h1>
+    </div>
     <div class="shunt-tiny">
       Died
-      <div class="bold-small">
+      <div class="font-small">
         {% if session.deceased['deathTimestamp'] %}
           {% if session.deceased['deathTimestamp'] %}
             {{ session.deceased['deathTimestamp'] | date("DD MMMM YYYY") }}
@@ -40,7 +39,7 @@
     </div>
     <div class="shunt-tiny">
       Aged
-      <div class="bold-small">
+      <div class="font-small">
         {% if session.deceased['age'] %}
           {{ session.deceased['age'] }}
         {% else %}
@@ -50,7 +49,7 @@
     </div>
     <div class="shunt-tiny">
       Type of death
-      <div class="bold-small">
+      <div class="font-small">
         {% if session.deceased['type-group'] %}
           {{ session.deceased['type-group'] | capitalize }}
         {% else %}
@@ -61,41 +60,24 @@
   </div>
 
   <div class="section bordered">
-    <div class="floats">
-      <div class="shunt-tiny">
-        <div class="font-xxsmall">Date of birth</div>
-        {% if session.deceased['birth'] %}
-          {{ session.deceased['birth'] | date("DD MMMM YYYY") }}
-        {% else %}
-          <span class="not-set">Not yet added</span>
-        {% endif %}
-      </div>
-      <div class="shunt-tiny">
-        <div class="font-xxsmall">NHS Number</div>
-        {% if session.deceased['nhs-number'] %}
-          {{ session.deceased['nhs-number'] }}
-        {% else %}
-          <span class="not-set">Not yet added</span>
-        {% endif %}
-      </div>
-      <div class="shunt-tiny">
-        <div class="font-xxsmall">Gender</div>
-        <span>
-          {% if session.deceased['nhs-number'] %}
-            {{ session.deceased['sex'] | capitalize }}
-          {% else %}
-            <span class="not-set">Not yet added</span>
-          {% endif %}
-          {% if session.deceased['pregnant'] and session.deceased['pregnant'] != '0' %}
-            , {{ session.deceased['pregnant'] }}
-          {% endif %}
-        </span>
-      </div>
+    <div class="shunt-small">
+      <div class="font-xxsmall">NHS Number</div>
+      {% if session.deceased['nhs-number'] %}
+        {{ session.deceased['nhs-number'] }}
+      {% else %}
+        <span class="not-set">Not yet added</span>
+      {% endif %}
     </div>
-  </div>
-
-  <div class="section floats bordered">
-    <div class="shunt-tiny">
+    <div class="shunt-small">
+      <div class="font-xxsmall">Last care organisation</div>
+      <!--<a href="#">Should link?</a>-->
+      {% if session.deceased['last-care-org'] %}
+        {{ session.deceased['last-care-org'] }}
+      {% else %}
+        <span class="not-set">Not yet added</span>
+      {% endif %}
+    </div>
+    <div class="shunt-small">
       <div class="font-xxsmall">Place of death</div>
       <!--<a href="#">Should link?</a>-->
       {% if session.deceased['death-address-1'] %}
@@ -116,19 +98,10 @@
         {{ session.deceased['death-postcode'] | upper }}
       {% endif %}
     </div>
-    <div class="shunt-tiny">
-      <div class="font-xxsmall">Last care organisation</div>
-      <!--<a href="#">Should link?</a>-->
-      {% if session.deceased['last-care-org'] %}
-        {{ session.deceased['last-care-org'] }}
-      {% else %}
-        <span class="not-set">Not yet added</span>
-      {% endif %}
-    </div>
   </div>
 
-  <div class="section floats bordered">
-    <div class="shunt-tiny">
+  <div class="section bordered">
+    <div class="shunt-small">
       <div class="font-xxsmall">Implants or devices</div>
       {% if session.deceased['implants-devices'] %}
         {{ session.deceased['implants-devices'] }}
@@ -136,7 +109,7 @@
         <span class="not-set">Not yet added</span>
       {% endif %}
     </div>
-    <div class="shunt-tiny">
+    <div class="shunt-small">
       <div class="font-xxsmall">Communicable infections</div>
       {% if session.deceased['communicable-infections'] %}
         {% for item in session.deceased['communicable-infections'] %}
@@ -146,7 +119,7 @@
         <span class="not-set">None</span>
       {% endif %}
     </div>
-    <div class="shunt-tiny">
+    <div class="shunt-small">
       <div class="font-xxsmall">ACDP hazard groups</div>
       {% if session.deceased['acdp'] %}
         {{ session.deceased['acdp'] }}
@@ -156,8 +129,29 @@
     </div>
   </div>
 
-  <div class="section floats bordered">
-    <div class="shunt-tiny">
+  <div class="section bordered">
+    <div class="shunt-small">
+      <div class="font-xxsmall">Date of birth</div>
+      {% if session.deceased['birth'] %}
+        {{ session.deceased['birth'] | date("DD MMMM YYYY") }}
+      {% else %}
+        <span class="not-set">Not yet added</span>
+      {% endif %}
+    </div>
+    <div class="shunt-small">
+      <div class="font-xxsmall">Sex</div>
+      <span>
+        {% if session.deceased['sex'] %}
+          {{ session.deceased['sex'] | capitalize }}
+        {% else %}
+          <span class="not-set">Not yet added</span>
+        {% endif %}
+        {% if session.deceased['pregnant'] and session.deceased['pregnant'] != '0' %}
+          , {{ session.deceased['pregnant'] }}
+        {% endif %}
+      </span>
+    </div>
+    <div class="shunt-small">
       <div class="font-xxsmall">Last residential address</div>
       {% if session.deceased['last-address-1'] %}
         {{ session.deceased['last-address-1'] | title }}<br>
@@ -177,7 +171,7 @@
         {{ session.deceased['last-postcode'] | upper }}
       {% endif %}
     </div>
-    <div class="shunt-tiny">
+    <div class="shunt-small">
       <div class="font-xxsmall">Last occupation</div>
       {% if session.deceased['last-occupation'] %}
         {{ session.deceased['last-occupation'] | title }}
