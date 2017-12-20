@@ -371,6 +371,19 @@ app.post('/edit-contact-deceased/:contactId', function(req, res) {
   res.redirect('/details-contact-deceased/' + urlName);
 })
 
+app.post('/edit-me-scrutiny', function(req, res) {
+  req.session.modificationTimestamp = new moment()
+  if (typeof req.session.events === 'undefined') {
+    req.session.events = {}
+  }
+  var event = {}
+  event['notes-pre-scrutiny'] = req.body['notes-pre-scrutiny']
+  event['scrutiny'] = req.body['scrutiny']
+  event['me-notes'] = req.body['me-notes']
+  req.session.events['me-scrutiny'] = event
+  res.redirect('/details-me-scrutiny');
+})
+
 // auto render any view that exists
 app.get(/^\/([^.]+)$/, function (req, res) {
   var path = (req.params[0])

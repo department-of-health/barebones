@@ -24,9 +24,9 @@
 
   <div class="form-group">
     <label class="form-label" for="notes-pre-scrutiny">
-      Notes on information provided by doctor and provisional advice given by medical examiner before scrutiny of records
+      Notes on information provided and advice given before scrutiny
     </label>
-    <textarea id="notes-pre-scrutiny" name="notes-pre-scrutiny" class="form-control" rows="5"></textarea>
+    <textarea id="notes-pre-scrutiny" name="notes-pre-scrutiny" class="form-control" rows="5">{{ session.events['me-scrutiny']['notes-pre-scrutiny'] }}</textarea>
   </div>
 
   <h2 class="bold-large shunt-medium">Record scrutiny</h2>
@@ -38,19 +38,23 @@
         <span class="form-hint">Select all that apply</span>
       </legend>
       <div class="multiple-choice">
-        <input id="scrutiny-mccd" name="scrutiny" type="checkbox" value="mccd">
+        <input id="scrutiny-mccd" name="scrutiny" type="checkbox" value="mccd"
+          {% if session.events['me-scrutiny']['scrutiny'] and 'mccd' in session.events['me-scrutiny']['scrutiny'] %}checked="checked"{% endif %}>
         <label for="scrutiny-mccd">MCCD</label>
       </div>
       <div class="multiple-choice">
-        <input id="scrutiny-full-record" name="scrutiny" type="checkbox" value="full-record">
+        <input id="scrutiny-full-record" name="scrutiny" type="checkbox" value="full-record"
+          {% if session.events['me-scrutiny']['scrutiny'] and 'full-record' in session.events['me-scrutiny']['scrutiny'] %}checked="checked"{% endif %}>
         <label for="scrutiny-full-record">Full clinical record</label>
       </div>
       <div class="multiple-choice">
-        <input id="scrutiny-summary-record" name="scrutiny" type="checkbox" value="summary-record">
+        <input id="scrutiny-summary-record" name="scrutiny" type="checkbox" value="summary-record"
+          {% if session.events['me-scrutiny']['scrutiny'] and 'summary-record' in session.events['me-scrutiny']['scrutiny'] %}checked="checked"{% endif %}>
         <label for="scrutiny-summary-record">Summary clinical record</label>
       </div>
       <div class="multiple-choice">
-        <input id="scrutiny-other" name="scrutiny" type="checkbox" value="other">
+        <input id="scrutiny-other" name="scrutiny" type="checkbox" value="other"
+          {% if session.events['me-scrutiny']['scrutiny'] and 'other' in session.events['me-scrutiny']['scrutiny'] %}checked="checked"{% endif %}>
         <label for="scrutiny-other">Other</label>
       </div>
     </fieldset>
@@ -58,9 +62,9 @@
 
   <div class="form-group">
     <label class="form-label-bold" for="me-notes">
-      Medical examiner’s notes
+      Notes on information scrutinised
     </label>
-    <textarea id="me-notes" name="me-notes" class="form-control" rows="10"></textarea>
+    <textarea id="me-notes" name="me-notes" class="form-control" rows="10">{{ session.events['me-scrutiny']['me-notes'] }}</textarea>
   </div>
 
   <button class="button" type="submit">Save</button>
