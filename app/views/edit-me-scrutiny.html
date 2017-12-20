@@ -1,0 +1,137 @@
+{% extends '_layouts/admin.html' %}
+
+{% block header_before %}
+<a href="#" id="fill-details" tabindex="-1" style="position: absolute; right: 0; top: 0; color: #00ad93;">
+  Fill in form
+</a>
+{% endblock %}
+
+
+{% block content %}
+<div class="section">
+  <div class="breadcrumb">
+    <ul>
+      <li><a href="/cases">Cases</a></li>
+      <li><a href="/case-overview">{{ session.caseRef }} overview</a></li>
+      <li>Medical Examiner scrutiny</li>
+    </ul>
+  </div>
+</div>
+
+<form method="post" class="section text">
+
+  <h1 class="bold-large shunt-medium">Before scrutiny</h1>
+
+  <div class="form-group">
+    <label class="form-label" for="notes-pre-scrutiny">
+      Notes on information provided by doctor and provisional advice given by medical examiner before scrutiny of records
+    </label>
+    <textarea id="notes-pre-scrutiny" name="notes-pre-scrutiny" class="form-control" rows="5"></textarea>
+  </div>
+
+  <h2 class="bold-large shunt-medium">Record scrutiny</h2>
+
+  <div class="form-group">
+    <fieldset>
+      <legend>
+        <span class="form-label-bold">Information scrutinised</span>
+        <span class="form-hint">Select all that apply</span>
+      </legend>
+      <div class="multiple-choice">
+        <input id="scrutiny-mccd" name="scrutiny" type="checkbox" value="mccd">
+        <label for="scrutiny-mccd">MCCD</label>
+      </div>
+      <div class="multiple-choice">
+        <input id="scrutiny-full-record" name="scrutiny" type="checkbox" value="full-record">
+        <label for="scrutiny-full-record">Full clinical record</label>
+      </div>
+      <div class="multiple-choice">
+        <input id="scrutiny-summary-record" name="scrutiny" type="checkbox" value="summary-record">
+        <label for="scrutiny-summary-record">Summary clinical record</label>
+      </div>
+      <div class="multiple-choice">
+        <input id="scrutiny-other" name="scrutiny" type="checkbox" value="other">
+        <label for="scrutiny-other">Other</label>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="me-notes">
+      Medical examiner’s notes
+    </label>
+    <textarea id="me-notes" name="me-notes" class="form-control" rows="10"></textarea>
+  </div>
+
+  <button class="button" type="submit">Save</button>
+  <p>
+    <a href="/case-overview" class="link-back">Cancel and go back</a>
+  </p>
+
+</form>
+{% endblock %}
+
+
+{% block body_after %}
+<!-- offer dictation? -->
+<script type="text/javascript">
+  if ('webkitSpeechRecognition' in window) {
+    var recognizing = false;
+    var recognition = new webkitSpeechRecognition();
+    var $target;
+    var $control;
+    var $dictationLinks;
+    recognition.lang = 'en-UK';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = function() {
+      console.log("start event");
+      recognizing = true;
+    };
+
+    recognition.onerror = function(event) {
+      console.log("error event");
+    };
+
+    recognition.onend = function() {
+      console.log("end event");
+      recognizing = false;
+      $dictationLinks.removeClass('disabled active').text('Dictate notes');
+    };
+
+    recognition.onresult = function(event) {
+      console.log(event.results);
+      $target.val('');
+      var text = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          text += event.results[i][0].transcript;
+        } else {
+          text += event.results[i][0].transcript;
+        }
+      }
+      $target.val(text);
+    };
+
+    // add a link
+    $('#notes-pre-scrutiny, #me-notes').after('<p><a href="#" class="dictate">Dictate notes</a></p>');
+    $dictationLinks = $('.dictate');
+
+    // set up listeners
+    $dictationLinks.on('click', function(e) {
+      e.preventDefault();
+      $control = $(this);
+      if (recognizing) {
+        recognition.stop();
+        return;
+      }
+      recognition.start();
+      $target = $control.parent().prev();
+      $target.val('');
+      $control.addClass('active').text('Stop dictation');
+      $dictationLinks.not($control).text('Disabled').addClass('disabled');
+    });
+  }
+</script>
+{% endblock %}
