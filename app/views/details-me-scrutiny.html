@@ -1,0 +1,55 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/case-overview">{{ session.caseRef }} overview</a></li>
+        <li>ME scrutiny</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section section-tinted">
+    <h1 class="bold-large">Medical examiner’s scrutiny</h1>
+  </div>
+
+  <div class="section bordered">
+    <div class="font-xxsmall">
+        Notes on information provided and advice given before scrutiny
+    </div>
+    <div class="text">
+      {{ session.events['me-scrutiny']['notes-pre-scrutiny'] | nl2br }}
+    </div>
+  </div>
+
+  <div class="section bordered">
+    <div class="shunt-small">
+      <div class="font-xxsmall">Information scrutinised</div>
+      {% if session.events['me-scrutiny']['scrutiny'] %}
+        {% for item in session.events['me-scrutiny']['scrutiny'] %}
+          {{ item | title }}<br>
+        {% endfor %}
+      {% else %}
+        <span class="not-set">None</span>
+      {% endif %}
+    </div>
+    <div class="shunt-small">
+      <div class="font-xxsmall">Notes on information scrutinised</div>
+      <div class="text">
+        {{ session.events['me-scrutiny']['me-notes'] | nl2br }}
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p>
+      <a href="/edit-me-scrutiny">Edit</a>
+    </p>
+    <p>
+      <a href="/case-overview">Go to case overview</a>
+    </p>
+  </div>
+
+{% endblock %}

@@ -17,8 +17,8 @@
 
     li {
       position: relative;
-      margin: 0 0 1em 0;
-      padding: .1em 0 .25em 2em;
+      margin: 0 0 .75em 0;
+      padding: 0 0 0 2em;
 
       &:before {
         content: ' ';
@@ -26,23 +26,29 @@
         left: 0;
         top: 0;
         display: block;
-        width: 1.5em;
-        height: 1.5em;
+        width: 1.2em;
+        height: 1.2em;
         border-radius: 100%;
         background-color: $grey-3;
       }
     }
 
     .nil {
-      &:link {
+      :link {
         color: $grey-1;
       }
-      &:visited {
+      :visited {
         color: $grey-1;
       }
-      &:hover,
-      &:focus {
+      :hover,
+      :focus {
         color: $black;
+      }
+    }
+
+    .active {
+      &:before {
+        background-color: $department-of-health;
       }
     }
   }

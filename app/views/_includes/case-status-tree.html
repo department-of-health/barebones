@@ -1,32 +1,39 @@
 <div class="case-status">
   <ul>
-    <li>
-      <a href="javascript:alert('Sorry! Not yet implemented in prototype')" class="nil">
+    {% if session.events['me-scrutiny'] %}
+      {% set url = '/details-me-scrutiny'%}
+      {% set class = 'active' %}
+    {% else %}
+      {% set url = '/edit-me-scrutiny'%}
+      {% set class = 'nil' %}
+    {% endif %}
+    <li class="{{ class }}">
+      <a href="{{ url }}">
         ME scrutiny
       </a>
     </li>
-    <li>
-      <a href="javascript:alert('Sorry! Not yet implemented in prototype')" class="nil">
+    <li class="nil">
+      <a href="javascript:alert('Sorry! Not yet implemented in prototype')">
         External examination
       </a>
     </li>
-    <li>
-      <a href="javascript:alert('Sorry! Not yet implemented in prototype')" class="nil">
+    <li class="nil">
+      <a href="javascript:alert('Sorry! Not yet implemented in prototype')">
         QAP and ME discussion
       </a>
     </li>
-    <li>
-      <a href="javascript:alert('Sorry! Not yet implemented in prototype')" class="nil">
+    <li class="nil">
+      <a href="javascript:alert('Sorry! Not yet implemented in prototype')">
         ME signed off cause of death
       </a>
     </li>
-    <li>
-      <a href="javascript:alert('Sorry! Not yet implemented in prototype')" class="nil">
+    <li class="nil">
+      <a href="javascript:alert('Sorry! Not yet implemented in prototype')">
         Discussion with informant
       </a>
     </li>
-    <li>
-      <a href="javascript:alert('Sorry! Not yet implemented in prototype')" class="nil">
+    <li class="nil">
+      <a href="javascript:alert('Sorry! Not yet implemented in prototype')">
         Informant assent
       </a>
     </li>
