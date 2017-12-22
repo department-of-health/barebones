@@ -102,13 +102,13 @@ app.get('/case-overview', function(req, res) {
 })
 
 app.post('/rename-case', function(req, res) {
-  req.session.modificationTimestamp = new moment() // POST indicates modifcation (a bit weak but prototype)
+  req.session.modificationTimestamp = new moment() // POST indicates modification (a bit weak but prototype)
   req.session.caseRef = req.body['name']
   res.redirect('/case-overview');
 })
 
 app.post('/edit-deceased', function(req, res) {
-  req.session.modificationTimestamp = new moment() // POST indicates modifcation (a bit weak but prototype)
+  req.session.modificationTimestamp = new moment() // POST indicates modification (a bit weak but prototype)
   req.session.deceased = req.body
   // make sure multiple choice elements are always arrays
   if (typeof req.body['communicable-infections'] === 'string') {
@@ -146,7 +146,7 @@ app.post('/edit-deceased', function(req, res) {
 })
 
 app.post('/edit-cause-of-death', function(req, res) {
-  req.session.modificationTimestamp = new moment() // POST indicates modifcation (a bit weak but prototype)
+  req.session.modificationTimestamp = new moment() // POST indicates modification (a bit weak but prototype)
   req.session.cause = req.body
   res.redirect('/case-overview');
 })
