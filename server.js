@@ -384,6 +384,16 @@ app.post('/edit-me-scrutiny', function(req, res) {
   res.redirect('/details-me-scrutiny');
 })
 
+// a post with NO slug is a new event
+app.post('/edit-generic-event', function(req, res) {
+  req.session.modificationTimestamp = new moment()
+  if (typeof req.session.events === 'undefined') {
+    req.session['generic-events'] = []
+  }
+  req.session['generic-events'].push(req.body)
+  res.redirect('/case-overview');
+})
+
 // auto render any view that exists
 app.get(/^\/([^.]+)$/, function (req, res) {
   var path = (req.params[0])
