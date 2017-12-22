@@ -407,8 +407,41 @@ app.post('/edit-generic-event', function(req, res) {
   if (typeof req.session.events === 'undefined') {
     req.session['generic-events'] = []
   }
-  req.session['generic-events'].push(req.body)
+  var thing = req.body
+  // create a url
+  var url = req.body['event-name'].toLowerCase().replace(/ /g, '-')
+  thing['event-url-name'] = url
+  // create a timestamp
+  if (req.body['event-year'] !== '' && req.body['event-month'] !== '' && req.body['event-day'] !== '') {
+    if (req.body['event-hour'] !== '' && req.body['event-mins'] !== '') {
+      var timeStr = ' ' + req.body['event-hour'] + ':' + req.body['event-mins'] + ':00'
+    }
+    var eventTime = moment(
+      req.body['event-year'] + '-' +
+      req.body['event-month'] + '-' +
+      req.body['event-day'] +
+      timeStr
+    )
+    thing['event-timestamp'] = eventTime
+  }
+  req.session['generic-events'].push(thing)
   res.redirect('/case-overview');
+})
+
+// Return a specific event
+app.get('/details-generic-event/:eventId', function(req, res) {
+  var e = req.params['eventId']
+  var es = req.session['generic-events']
+  for (var c = 0; c < es.length; c++) {
+    if (es[c]['event-url-name'] === e) {
+      var plucked = es[c]
+      break;
+    }
+  }
+  res.render('details-generic-event', {
+    details: plucked,
+    session: req.session
+  });
 })
 
 // =============================================================================

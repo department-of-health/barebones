@@ -157,7 +157,15 @@
 
     <div class="shunt-small panel-3-up">
       <h3 class="font-small shunt-small">Events</a></h3>
-      {% include '_includes/case-status-tree.html' %}
+      <div class="shunt-medium">
+        {% include '_includes/case-status-tree.html' %}
+      </div>
+      {% if session['generic-events'] %}
+        <h3 class="font-small shunt-small">Other events</a></h3>
+        {% for event in session['generic-events'] %}
+          <a href="/details-generic-event/{{ event['event-url-name'] }}">{{ event['event-name'] | capitalize }}</a>
+        {% endfor %}
+      {% endif %}
       <p>
         <a href="/edit-generic-event">Add another event</a>
       </p>

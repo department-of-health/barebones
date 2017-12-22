@@ -1,0 +1,57 @@
+{% extends '_layouts/admin.html' %}
+
+{% block content %}
+  <div class="section">
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/case-overview">{{ session.caseRef }} overview</a></li>
+        <li>{{ details['event-name'] | capitalize }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section section-tinted">
+    <h1 class="bold-large">{{ details['event-name'] | capitalize }}</h1>
+  </div>
+
+  <div class="section bordered">
+    <div class="shunt-small">
+      <div class="font-xxsmall">
+        Date and time
+      </div>
+      <div>
+        {{ details['event-timestamp'] | date("DD MMMM YYYY") }}
+        at {{ details['event-timestamp'] | date("HH[:]mm") }}
+      </div>
+    </div>
+    <div class="shunt-small">
+      <div class="font-xxsmall">
+        Duration
+      </div>
+      <div>
+        {{ details['event-duration-hours'] }} hours
+        {{ details['event-duration-mins'] }} minutes
+      </div>
+    </div>
+  </div>
+
+  <div class="section bordered">
+    <div class="font-xxsmall">
+        Synposis
+    </div>
+    <div class="text">
+      {{ details['event-synopsis'] | nl2br | safe }}
+    </div>
+  </div>
+
+  <div class="section">
+    <p>
+      <a href="/edit-generic-event/{{ details['event-url-name'] }}">Edit</a>
+    </p>
+    <p>
+      <a href="/case-overview">Go to case overview</a>
+    </p>
+  </div>
+
+{% endblock %}
