@@ -95,12 +95,6 @@ app.get('/start', function(req, res) {
   })
 })
 
-app.get('/case-overview', function(req, res) {
-  res.render('case-overview', {
-    session: req.session
-  })
-})
-
 app.post('/rename-case', function(req, res) {
   req.session.modificationTimestamp = new moment() // POST indicates modification (a bit weak but prototype)
   req.session.caseRef = req.body['name']
