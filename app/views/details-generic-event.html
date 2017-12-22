@@ -30,7 +30,9 @@
         Duration
       </div>
       <div>
-        {{ details['event-duration-hours'] }} hours
+        {% if details['event-duration-hours'] %}
+          {{ details['event-duration-hours'] }} hours 
+        {% endif %}
         {{ details['event-duration-mins'] }} minutes
       </div>
     </div>

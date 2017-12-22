@@ -425,7 +425,7 @@ app.post('/edit-generic-event', function(req, res) {
     thing['event-timestamp'] = eventTime
   }
   req.session['generic-events'].push(thing)
-  res.redirect('/case-overview');
+  res.redirect('/details-generic-event/' + url);
 })
 
 // Return a specific event
@@ -442,6 +442,57 @@ app.get('/details-generic-event/:eventId', function(req, res) {
     details: plucked,
     session: req.session
   });
+})
+
+// Prefill a generic event form for edit
+app.get('/edit-generic-event/:eventId', function(req, res) {
+  var e = req.params['eventId']
+  var es = req.session['generic-events']
+  for (var c = 0; c < es.length; c++) {
+    if (es[c]['event-url-name'] === e) {
+      var plucked = es[c]
+      break;
+    }
+  }
+  res.render('edit-generic-event', {
+    edit: true,
+    details: plucked,
+    session: req.session
+  });
+})
+
+// Edit a generic event
+app.post('/edit-generic-event/:eventId', function(req, res) {
+  req.session.modificationTimestamp = new moment()
+  // build a new 'event' object
+  var thing = req.body
+  // create a url
+  var url = req.body['event-name'].toLowerCase().replace(/ /g, '-')
+  thing['event-url-name'] = url
+  // create a timestamp
+  if (req.body['event-year'] !== '' && req.body['event-month'] !== '' && req.body['event-day'] !== '') {
+    if (req.body['event-hour'] !== '' && req.body['event-mins'] !== '') {
+      var timeStr = ' ' + req.body['event-hour'] + ':' + req.body['event-mins'] + ':00'
+    }
+    var eventTime = moment(
+      req.body['event-year'] + '-' +
+      req.body['event-month'] + '-' +
+      req.body['event-day'] +
+      timeStr
+    )
+    thing['event-timestamp'] = eventTime
+  }
+
+  // Get the right contact to edit
+  var target = req.params['eventId']
+  for (var c = 0; c < req.session['generic-events'].length; c++) {
+    if (req.session['generic-events'][c]['event-url-name'] === target) {
+      req.session['generic-events'][c] = thing
+      break;
+    }
+  }
+
+  res.redirect('/details-generic-event/' + url);
 })
 
 // =============================================================================

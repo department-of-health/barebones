@@ -13,7 +13,11 @@
     <ul>
       <li><a href="/cases">Cases</a></li>
       <li><a href="/case-overview">{{ session.caseRef }} overview</a></li>
-      <li>Event</li>
+      {% if edit %}
+        <li>Edit event</li>
+      {% else %}
+        <li>Add event</li>
+      {% endif %}
     </ul>
   </div>
 </div>
@@ -25,7 +29,8 @@
   <div class="form-group">
     <label class="form-label-bold" for="event-name">Event name</label>
     <span class="form-hint">For example 'Telephone call with the informant'</span>
-    <input type="text" class="form-control" id="event-name" name="event-name" value="">
+    <input type="text" class="form-control" id="event-name" name="event-name"
+      value="{{ details['event-name'] }}">
   </div>
 
   <div class="floats">
@@ -40,15 +45,18 @@
         <div class="form-date">
           <div class="form-group form-group-day">
             <label class="form-label" for="event-day">Day</label>
-            <input class="form-control" id="event-day" name="event-day" type="number" pattern="[0-9]*" min="0" max="31">
+            <input class="form-control" id="event-day" name="event-day" type="number" pattern="[0-9]*" min="0" max="31"
+              value="{{ details['event-day'] }}">
           </div>
           <div class="form-group form-group-month">
             <label class="form-label" for="event-month">Month</label>
-            <input class="form-control" id="event-month" name="event-month" type="number" pattern="[0-9]*" min="0" max="12">
+            <input class="form-control" id="event-month" name="event-month" type="number" pattern="[0-9]*" min="0" max="12"
+              value="{{ details['event-month'] }}">
           </div>
           <div class="form-group form-group-year">
             <label class="form-label" for="event-year">Year</label>
-            <input class="form-control" id="event-year" name="event-year" type="number" pattern="[0-9]*" min="0" max="{{ jsNow | date('YYYY') }}">
+            <input class="form-control" id="event-year" name="event-year" type="number" pattern="[0-9]*" min="0" max="{{ jsNow | date('YYYY') }}"
+              value="{{ details['event-year'] }}">
           </div>
         </div>
       </fieldset>
@@ -64,11 +72,13 @@
         <div class="form-date">
           <div class="form-group form-group-day">
             <label class="form-label" for="event-hour">Hour</label>
-            <input class="form-control" id="event-hour" name="event-hour" type="number" pattern="[0-9]*" min="00" max="24">
+            <input class="form-control" id="event-hour" name="event-hour" type="number" pattern="[0-9]*" min="00" max="24"
+              value="{{ details['event-hour'] }}">
           </div>
           <div class="form-group form-group-day">
             <label class="form-label" for="event-mins">Minute</label>
-            <input class="form-control" id="event-mins" name="event-mins" type="number" pattern="[0-9]*" min="00" max="59">
+            <input class="form-control" id="event-mins" name="event-mins" type="number" pattern="[0-9]*" min="00" max="59"
+              value="{{ details['event-mins'] }}">
           </div>
         </div>
       </fieldset>
@@ -86,11 +96,13 @@
       <div class="form-date">
         <div class="form-group form-group-day">
           <label class="form-label" for="event-duration-hours">Hours</label>
-          <input class="form-control" id="event-duration-hours" name="event-duration-hours" type="number" pattern="[0-9]*" min="00" max="24">
+          <input class="form-control" id="event-duration-hours" name="event-duration-hours" type="number" pattern="[0-9]*" min="00" max="24"
+            value="{{ details['event-duration-hours'] }}">
         </div>
         <div class="form-group form-group-day">
           <label class="form-label" for="event-duration-mins">Minutes</label>
-          <input class="form-control" id="event-duration-mins" name="event-duration-mins" type="number" pattern="[0-9]*" min="00" max="59">
+          <input class="form-control" id="event-duration-mins" name="event-duration-mins" type="number" pattern="[0-9]*" min="00" max="59"
+            value="{{ details['event-duration-mins'] }}">
         </div>
       </div>
     </fieldset>
@@ -100,7 +112,7 @@
     <label class="form-label-bold" for="event-synopsis">
       Synopsis
     </label>
-    <textarea id="event-synopsis" name="event-synopsis" class="form-control" rows="10"></textarea>
+    <textarea id="event-synopsis" name="event-synopsis" class="form-control" rows="10">{{ details['event-synopsis'] }}</textarea>
   </div>
 
   <button class="button" type="submit">Save</button>
@@ -113,65 +125,20 @@
 
 
 {% block body_after %}
-<!-- offer dictation? -->
 <script type="text/javascript">
-  if ('webkitSpeechRecognition' in window) {
-    var recognizing = false;
-    var recognition = new webkitSpeechRecognition();
-    var $target;
-    var $control;
-    var $dictationLinks;
-    recognition.lang = 'en-UK';
-    recognition.continuous = true;
-    recognition.interimResults = true;
-
-    recognition.onstart = function() {
-      console.log("start event");
-      recognizing = true;
-    };
-
-    recognition.onerror = function(event) {
-      console.log("error event");
-    };
-
-    recognition.onend = function() {
-      console.log("end event");
-      recognizing = false;
-      $dictationLinks.removeClass('disabled active').text('Dictate notes');
-    };
-
-    recognition.onresult = function(event) {
-      console.log(event.results);
-      $target.val('');
-      var text = '';
-      for (var i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          text += event.results[i][0].transcript;
-        } else {
-          text += event.results[i][0].transcript;
-        }
-      }
-      $target.val(text);
-    };
-
-    // add a link
-    $('#notes-pre-scrutiny, #me-notes').after('<p><a href="#" class="dictate">Dictate notes</a></p>');
-    $dictationLinks = $('.dictate');
-
-    // set up listeners
-    $dictationLinks.on('click', function(e) {
+  $(function() {
+    $('#fill-details').on('click', function(e) {
       e.preventDefault();
-      $control = $(this);
-      if (recognizing) {
-        recognition.stop();
-        return;
-      }
-      recognition.start();
-      $target = $control.parent().prev();
-      $target.val('');
-      $control.addClass('active').text('Stop dictation');
-      $dictationLinks.not($control).text('Disabled').addClass('disabled');
-    });
-  }
+      $('#event-name').val('Phone call with informant');
+      $('#event-day').val('20');
+      $('#event-month').val('12');
+      $('#event-year').val('2017');
+      $('#event-hour').val('09');
+      $('#event-mins').val('07');
+      $('#event-duration-hours').val('');
+      $('#event-duration-mins').val('25');
+      $('#event-synopsis').val('Called informant to let them know that the ME and QAP discussion had happened, and that the ME will call them tomorrow.');
+    })
+  });
 </script>
 {% endblock %}
