@@ -95,11 +95,17 @@ app.get('/start', function(req, res) {
   })
 })
 
+// =============================================================================
+// RENAME CASE
+
 app.post('/rename-case', function(req, res) {
   req.session.modificationTimestamp = new moment() // POST indicates modification (a bit weak but prototype)
   req.session.caseRef = req.body['name']
   res.redirect('/case-overview');
 })
+
+// =============================================================================
+// THE DECEASED
 
 app.post('/edit-deceased', function(req, res) {
   req.session.modificationTimestamp = new moment() // POST indicates modification (a bit weak but prototype)
@@ -139,13 +145,19 @@ app.post('/edit-deceased', function(req, res) {
   res.redirect('/details-deceased');
 })
 
+// =============================================================================
+// CAUSE OF DEATH
+
 app.post('/edit-cause-of-death', function(req, res) {
   req.session.modificationTimestamp = new moment() // POST indicates modification (a bit weak but prototype)
   req.session.cause = req.body
   res.redirect('/case-overview');
 })
 
-// a post with NO slug is a new contact
+// =============================================================================
+// CONTACTS - EXAMINATION
+
+// a post with NO slug is a new examination contact
 app.post('/edit-contact-examination', function(req, res) {
   req.session.modificationTimestamp = new moment()
   if (typeof req.session['contacts-examination'] === 'undefined') {
@@ -182,44 +194,7 @@ app.post('/edit-contact-examination', function(req, res) {
   res.redirect('/details-contact-examination/' + urlName);
 })
 
-// a post with NO slug is a new contact
-app.post('/edit-contact-deceased', function(req, res) {
-  req.session.modificationTimestamp = new moment()
-  if (typeof req.session['contacts-deceased'] === 'undefined') {
-    req.session['contacts-deceased'] = []
-  }
-  // let's build up the 'contact' object
-  var contact = {}
-  contact['name'] = req.body['name']
-  var urlName = req.body['name'].toLowerCase().replace(/ /g, '-')
-  contact['url-name'] = urlName
-  contact['relationship'] = req.body['relationship']
-  contact['present-at-death'] = req.body['present-at-death']
-  contact['informant'] = req.body['informant']
-  contact['primary-channel'] = req.body['primary-channel']
-  contact.methods = []
-  contact.methods.push({ name: 'tel-primary', title: 'telephone', value: req.body['tel-primary'] })
-  contact.methods.push({ name: 'tel-secondary', title: 'telephone', value: req.body['tel-secondary'] })
-  contact.methods.push({ name: 'tel-pager', title: 'pager', value: req.body['tel-pager'] })
-  contact.methods.push({ name: 'email', title: 'email', value: req.body['email'] })
-  contact.methods.push({
-    name: 'address',
-    title: 'address',
-    value: [
-      req.body['address-1'],
-      req.body['address-2'],
-      req.body['address-3'],
-      req.body['address-4'],
-      req.body['postcode']
-    ]
-  })
-  contact.notes = req.body['notes']
-  req.session['contacts-deceased'].push(contact);
-  req.session.contacts++
-  res.redirect('/details-contact-deceased/' + urlName);
-})
-
-// return contact details - professional
+// Return an examination contact
 app.get('/details-contact-examination/:contactId', function(req, res) {
   var contact = req.params['contactId']
   var contacts = req.session['contacts-examination']
@@ -235,23 +210,7 @@ app.get('/details-contact-examination/:contactId', function(req, res) {
   });
 })
 
-// return contact details - citizen
-app.get('/details-contact-deceased/:contactId', function(req, res) {
-  var contact = req.params['contactId']
-  var contacts = req.session['contacts-deceased']
-  for (var c = 0; c < contacts.length; c++) {
-    if (contacts[c]['url-name'] === contact) {
-      var plucked = contacts[c]
-      break;
-    }
-  }
-  res.render('details-contact-deceased', {
-    details: plucked,
-    session: req.session
-  });
-})
-
-// Edit a contact
+// Prefill an examination contact form for edit
 app.get('/edit-contact-examination/:contactId', function(req, res) {
   var contact = req.params['contactId']
   var contacts = req.session['contacts-examination']
@@ -268,23 +227,7 @@ app.get('/edit-contact-examination/:contactId', function(req, res) {
   });
 })
 
-app.get('/edit-contact-deceased/:contactId', function(req, res) {
-  var contact = req.params['contactId']
-  var contacts = req.session['contacts-deceased']
-  for (var c = 0; c < contacts.length; c++) {
-    if (contacts[c]['url-name'] === contact) {
-      var plucked = contacts[c]
-      break;
-    }
-  }
-  res.render('edit-contact-deceased', {
-    edit: true,
-    details: plucked,
-    session: req.session
-  });
-})
-
-// a post WITH a slug is an edit
+// Handle a contact edit
 app.post('/edit-contact-examination/:contactId', function(req, res) {
   req.session.modificationTimestamp = new moment()
   // build a new 'contact' object
@@ -325,6 +268,80 @@ app.post('/edit-contact-examination/:contactId', function(req, res) {
   res.redirect('/details-contact-examination/' + urlName);
 })
 
+// =============================================================================
+// CONTACTS - DECEASED
+
+// a post with NO slug is a new contact
+app.post('/edit-contact-deceased', function(req, res) {
+  req.session.modificationTimestamp = new moment()
+  if (typeof req.session['contacts-deceased'] === 'undefined') {
+    req.session['contacts-deceased'] = []
+  }
+  // let's build up the 'contact' object
+  var contact = {}
+  contact['name'] = req.body['name']
+  var urlName = req.body['name'].toLowerCase().replace(/ /g, '-')
+  contact['url-name'] = urlName
+  contact['relationship'] = req.body['relationship']
+  contact['present-at-death'] = req.body['present-at-death']
+  contact['informant'] = req.body['informant']
+  contact['primary-channel'] = req.body['primary-channel']
+  contact.methods = []
+  contact.methods.push({ name: 'tel-primary', title: 'telephone', value: req.body['tel-primary'] })
+  contact.methods.push({ name: 'tel-secondary', title: 'telephone', value: req.body['tel-secondary'] })
+  contact.methods.push({ name: 'tel-pager', title: 'pager', value: req.body['tel-pager'] })
+  contact.methods.push({ name: 'email', title: 'email', value: req.body['email'] })
+  contact.methods.push({
+    name: 'address',
+    title: 'address',
+    value: [
+      req.body['address-1'],
+      req.body['address-2'],
+      req.body['address-3'],
+      req.body['address-4'],
+      req.body['postcode']
+    ]
+  })
+  contact.notes = req.body['notes']
+  req.session['contacts-deceased'].push(contact);
+  req.session.contacts++
+  res.redirect('/details-contact-deceased/' + urlName);
+})
+
+// Return a contact
+app.get('/details-contact-deceased/:contactId', function(req, res) {
+  var contact = req.params['contactId']
+  var contacts = req.session['contacts-deceased']
+  for (var c = 0; c < contacts.length; c++) {
+    if (contacts[c]['url-name'] === contact) {
+      var plucked = contacts[c]
+      break;
+    }
+  }
+  res.render('details-contact-deceased', {
+    details: plucked,
+    session: req.session
+  });
+})
+
+// Prefill a contact form for edit
+app.get('/edit-contact-deceased/:contactId', function(req, res) {
+  var contact = req.params['contactId']
+  var contacts = req.session['contacts-deceased']
+  for (var c = 0; c < contacts.length; c++) {
+    if (contacts[c]['url-name'] === contact) {
+      var plucked = contacts[c]
+      break;
+    }
+  }
+  res.render('edit-contact-deceased', {
+    edit: true,
+    details: plucked,
+    session: req.session
+  });
+})
+
+// Handle a contact edit
 app.post('/edit-contact-deceased/:contactId', function(req, res) {
   req.session.modificationTimestamp = new moment()
   // build a new 'contact' object
@@ -365,6 +382,9 @@ app.post('/edit-contact-deceased/:contactId', function(req, res) {
   res.redirect('/details-contact-deceased/' + urlName);
 })
 
+// =============================================================================
+// EVENT - ME SCRUTINY
+
 app.post('/edit-me-scrutiny', function(req, res) {
   req.session.modificationTimestamp = new moment()
   if (typeof req.session.events === 'undefined') {
@@ -378,7 +398,10 @@ app.post('/edit-me-scrutiny', function(req, res) {
   res.redirect('/details-me-scrutiny');
 })
 
-// a post with NO slug is a new event
+// =============================================================================
+// EVENT - GENERIC
+
+// a post with NO slug is a new generic event
 app.post('/edit-generic-event', function(req, res) {
   req.session.modificationTimestamp = new moment()
   if (typeof req.session.events === 'undefined') {
@@ -387,6 +410,8 @@ app.post('/edit-generic-event', function(req, res) {
   req.session['generic-events'].push(req.body)
   res.redirect('/case-overview');
 })
+
+// =============================================================================
 
 // auto render any view that exists
 app.get(/^\/([^.]+)$/, function (req, res) {
