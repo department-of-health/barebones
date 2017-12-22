@@ -1,0 +1,177 @@
+{% extends '_layouts/admin.html' %}
+
+{% block header_before %}
+<a href="#" id="fill-details" tabindex="-1" style="position: absolute; right: 0; top: 0; color: #00ad93;">
+  Fill in form
+</a>
+{% endblock %}
+
+
+{% block content %}
+<div class="section">
+  <div class="breadcrumb">
+    <ul>
+      <li><a href="/cases">Cases</a></li>
+      <li><a href="/case-overview">{{ session.caseRef }} overview</a></li>
+      <li>Event</li>
+    </ul>
+  </div>
+</div>
+
+<form method="post" class="section text">
+
+  <h1 class="bold-large shunt-medium">Event</h1>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="event-name">Event name</label>
+    <span class="form-hint">For example 'Telephone call with the informant'</span>
+    <input type="text" class="form-control" id="event-name" name="event-name" value="">
+  </div>
+
+  <div class="floats">
+    <div class="form-group">
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            Event date
+          </span>
+          <span class="form-hint">For example, {{ jsNow | date("DD MM YYYY") }}</span>
+        </legend>
+        <div class="form-date">
+          <div class="form-group form-group-day">
+            <label class="form-label" for="event-day">Day</label>
+            <input class="form-control" id="event-day" name="event-day" type="number" pattern="[0-9]*" min="0" max="31">
+          </div>
+          <div class="form-group form-group-month">
+            <label class="form-label" for="event-month">Month</label>
+            <input class="form-control" id="event-month" name="event-month" type="number" pattern="[0-9]*" min="0" max="12">
+          </div>
+          <div class="form-group form-group-year">
+            <label class="form-label" for="event-year">Year</label>
+            <input class="form-control" id="event-year" name="event-year" type="number" pattern="[0-9]*" min="0" max="{{ jsNow | date('YYYY') }}">
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            Event time
+          </span>
+          <span class="form-hint">For example, {{ jsNow | date("HH mm") }}</span>
+        </legend>
+        <div class="form-date">
+          <div class="form-group form-group-day">
+            <label class="form-label" for="event-hour">Hour</label>
+            <input class="form-control" id="event-hour" name="event-hour" type="number" pattern="[0-9]*" min="00" max="24">
+          </div>
+          <div class="form-group form-group-day">
+            <label class="form-label" for="event-mins">Minute</label>
+            <input class="form-control" id="event-mins" name="event-mins" type="number" pattern="[0-9]*" min="00" max="59">
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <fieldset>
+      <legend>
+        <span class="form-label-bold">
+          Event duration
+        </span>
+        <span class="form-hint">For example, 1 30</span>
+      </legend>
+      <div class="form-date">
+        <div class="form-group form-group-day">
+          <label class="form-label" for="event-duration-hours">Hours</label>
+          <input class="form-control" id="event-duration-hours" name="event-duration-hours" type="number" pattern="[0-9]*" min="00" max="24">
+        </div>
+        <div class="form-group form-group-day">
+          <label class="form-label" for="event-duration-mins">Minutes</label>
+          <input class="form-control" id="event-duration-mins" name="event-duration-mins" type="number" pattern="[0-9]*" min="00" max="59">
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label-bold" for="me-notes">
+      Synopsis
+    </label>
+    <textarea id="me-notes" name="me-notes" class="form-control" rows="10"></textarea>
+  </div>
+
+  <button class="button" type="submit">Save</button>
+  <p>
+    <a href="/case-overview" class="link-back">Cancel and go back</a>
+  </p>
+
+</form>
+{% endblock %}
+
+
+{% block body_after %}
+<!-- offer dictation? -->
+<script type="text/javascript">
+  if ('webkitSpeechRecognition' in window) {
+    var recognizing = false;
+    var recognition = new webkitSpeechRecognition();
+    var $target;
+    var $control;
+    var $dictationLinks;
+    recognition.lang = 'en-UK';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = function() {
+      console.log("start event");
+      recognizing = true;
+    };
+
+    recognition.onerror = function(event) {
+      console.log("error event");
+    };
+
+    recognition.onend = function() {
+      console.log("end event");
+      recognizing = false;
+      $dictationLinks.removeClass('disabled active').text('Dictate notes');
+    };
+
+    recognition.onresult = function(event) {
+      console.log(event.results);
+      $target.val('');
+      var text = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          text += event.results[i][0].transcript;
+        } else {
+          text += event.results[i][0].transcript;
+        }
+      }
+      $target.val(text);
+    };
+
+    // add a link
+    $('#notes-pre-scrutiny, #me-notes').after('<p><a href="#" class="dictate">Dictate notes</a></p>');
+    $dictationLinks = $('.dictate');
+
+    // set up listeners
+    $dictationLinks.on('click', function(e) {
+      e.preventDefault();
+      $control = $(this);
+      if (recognizing) {
+        recognition.stop();
+        return;
+      }
+      recognition.start();
+      $target = $control.parent().prev();
+      $target.val('');
+      $control.addClass('active').text('Stop dictation');
+      $dictationLinks.not($control).text('Disabled').addClass('disabled');
+    });
+  }
+</script>
+{% endblock %}
