@@ -20,7 +20,7 @@
         Notes on information provided and advice given before scrutiny
     </div>
     <div class="text">
-      {{ session.events['me-scrutiny']['notes-pre-scrutiny'] | nl2br }}
+      {{ session.events['me-scrutiny']['notes-pre-scrutiny'] | nl2br | safe }}
     </div>
   </div>
 
