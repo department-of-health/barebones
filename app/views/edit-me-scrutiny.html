@@ -138,4 +138,17 @@
     });
   }
 </script>
+
+<script type="text/javascript">
+  $(function() {
+    $('#fill-details').on('click', function(e) {
+      e.preventDefault()
+      $('#notes-pre-scrutiny')
+        .val('QAP gave me copies of their notes, I accessed the summary care record then took a copy of the record from the GP surgery.')
+      $('#scrutiny-full-record').click();
+      $('#scrutiny-summary-record').click();
+      $('#me-notes').val('COD as reported was fine, I suggested the addition of 1b and shifted osteoarthritis to 2')
+    })
+  });
+</script>
 {% endblock %}
